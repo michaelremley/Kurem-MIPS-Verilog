@@ -36,2268 +36,621 @@
 		</nav>
 	</header>
 	<main>
-		<div class="bg-light" id="main-content">
-			<table class="table table-bordered table-sm">
-				<thead>
-					<tr>
-						<th>Instruction</th>
-						<th>Name</th>
-						<th>Format</th>
-						<th>Verilog Operation</th>
-						<th colspan=8>Opcode bitfields</th>
-					</tr>
-			</thead>
-			<thead>
-				<tr>
-					<td colspan=12>
-						Arithmetic Logic Unit
-					</td>
-				</tr>
-			</thead>
-			<tbody>
-			<tr>
-				<td>ADD rd, rs, rt</td>
-				<td>>Add</td>
-				<td>R</td>
-				<td>R[rd] = R[rs] + R[rt];<br>
-					Ov = (R[rs](31)==R[rt](31))&amp;~(R[rt](31)==R[rd](31))
-				</td>
-				<td>000000</td>
-				<td>rs</td>
-				<td>rt</td>
-				<td colspan=3>rd</td>
-				<td>00000</td>
-				<td>100000</td>
-			</tr>
-			<tr>
-				<td>ADDI rt, rs, imm</td>
-				<td>Add Immediate</td>
-				<td>I</td>
-				<td>R[rt] = R[rs] + SignExtImm;<br>
-					Ov = (R[rs](31)==R[rt](31))&amp;~(R[rt](31)==R[rd](31))
-				</td>
-				<td>001000</td>
-				<td>rs</td>
-				<td>rt</td>
-				<td colspan=5>imm</td>
-			</tr>
-			<tr>
-				<td>ADDIU rt, rs, imm</td>
-				<td>Add Immediate Unsigned</td>
-				<td>I</td>
-				<td>R[rt] = R[rs] + SignExtImm</td>
-				<td>001001</td>
-				<td>rs</td>
-				<td>rt</td>
-				<td colspan=5>imm</td>
-			</tr>
-			<tr>
-				<td>ADDU rd, rs, rt</td>
-				<td>Add Unsiged</td>
-				<td>R</td>
-				<td>R[rd] = R[rs] + R[rt]</td>
-				<td>000000</td>
-				<td>rs</td>
-				<td>rt</td>
-				<td width=46 colspan=3>rd</t	d>
-				<td width=62>00000</td>
-				<td width=63>100001</td>
-			</tr>
-			<tr>
-				<td>AND rd, rs, rt</td>
-				<td>And</td>
-				<td>R</td>
-				<td>R[rd] = R[rs] &amp; R[rt]</td>
-				<td>000000	</td>
-				<td>rs</td>
-				<td>rt</td>
-				<td width=46 colspan=3>rd</td>
-				<td width=62>00000</td>
-				<td width=63>100100</td>
-			</tr>
-			<tr>
-				<td>ANDI rt, rs, imm</td>
-				<td>And Immediate</td>
-				<td>I</td>
-				<td>R[rt] = R[rs] &amp; ZeroExtImm</td>
-				<td>001100</td>
-				<td>rs</td>
-				<td>rt</td>
-				<td width=171 colspan=5>imm</td>
-			</tr>
-			<tr>
-				<td>LUI rt, imm</td>
-				<td>Load Upper Immediate</td>
-				<td>I</td>
-				<td>R[rt] = {imm,16’b0}</td>
-				<td>001111</td>
-				<td>rs</td>
-				<td>rt</td>
-				<td colspan=5>imm</td>
-			</tr>
-			<tr>
-				<td>NOR rd, rs, rt</td>
-				<td>Nor</td>
-				<td>R</td>
-				<td>R[rd] = ~(R[rs] | R[rt])</td>
-				<td>000000</td>
-				<td>rs</td>
-				<td>rt</td>
-				<td colspan=3>rd</td>
-				<td>00000</td>
-				<td>100111</td>
-			</tr>
-			<tr>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>OR rd, rs, rt</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>Or</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>R</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>R[rd] = R[rs] | R[rt]</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>000000</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>rt</span></p>
-			</td>
-			<td width=46 colspan=3 style='width:34.75pt;border-top:none;
-			border-left:none;
-			height:.2in'>
-			<p ><span
-			>rd</span></p>
-			</td>
-			<td width=62 style='width:46.6pt;
-
-			height:.2in'>
-			<p ><span
-			>00000</span></p>
-			</td>
-			<td width=63 style='width:47.2pt;
-			height:.2in'>
-			<p ><span
-			>100101</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>ORI rt, rs, imm</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>Or Immediate</span></p>
-			</td>
-			<td>
-			<p ><span
-			>I</span></p>
-			</td>
-			<td>
-				R[rt] = R[rs] | ZeroExtImm
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>001101</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>rt</span></p>
-			</td>
-			<td width=171 colspan=5 style='width:128.55pt;border:none;
-
-			height:.2in'>
-			<p ><span
-			>imm</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>SLT rd, rs, rt</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>Set Less Than</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>R</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>R[rd] = $signed (R[rs] &lt;
-			R[rt])?1:0</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>000000</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>rt</span></p>
-			</td>
-			<td width=46 colspan=3 style='width:34.75pt;border-top:none;
-			border-left:none;
-			height:.2in'>
-			<p ><span
-			>rd</span></p>
-			</td>
-			<td width=62 style='width:46.6pt;
-
-			height:.2in'>
-			<p ><span
-			>00000</span></p>
-			</td>
-			<td width=63 style='width:47.2pt;
-			height:.2in'>
-			<p ><span
-			>101010</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>SLTI rt, rs, imm</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>Set Less Than Immediate</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>I</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>R[rt] = $signed(R[rs] &lt; SignExtImm)?1:0</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>001010</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>rt</span></p>
-			</td>
-			<td width=171 colspan=5 style='width:128.55pt;border:none;
-
-			height:.2in'>
-			<p ><span
-			>imm</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>SLTIU rt, rs, imm</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>Set Less Than Immediate Unsigned</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>I</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>R[rt] = (R[rs] &lt;
-			SignExtImm)?1:0</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>001011</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>rt</span></p>
-			</td>
-			<td width=171 colspan=5 style='width:128.55pt;border:none;
-			height:.2in'>
-			<p ><span
-			>imm</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>SLTU rd, rs, rt</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>Set Less Than Unsigned</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>R</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>R[rd] = (R[rs] &lt; R[rt]?1:0</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>000000</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>rt</span></p>
-			</td>
-			<td width=46 colspan=3 style='width:34.75pt;border-top:none;
-			border-left:none;
-			height:.2in'>
-			<p ><span
-			>rd</span></p>
-			</td>
-			<td width=62 style='width:46.6pt;
-
-			height:.2in'>
-			<p ><span
-			>00000</span></p>
-			</td>
-			<td width=63 style='width:47.2pt;
-			height:.2in'>
-			<p ><span
-			>101011</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>SUB rd, rs, rt</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>Subtract</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>R</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>R[rd] = $signed(R[rs] - R[rt]);</span></p>
-			<p ><span
-			>Ov = ~(R[rs](31)==R[rt](31))&amp;(R[rt](31)==R[rd](31))</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>000000</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>rt</span></p>
-			</td>
-			<td width=46 colspan=3 style='width:34.75pt;border-top:none;
-			border-left:none;
-			height:.2in'>
-			<p ><span
-			>rd</span></p>
-			</td>
-			<td width=62 style='width:46.6pt;
-
-			height:.2in'>
-			<p ><span
-			>00000</span></p>
-			</td>
-			<td width=63 style='width:47.2pt;
-			height:.2in'>
-			<p ><span
-			>100010</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>SUBU rd, rs, rt</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>Subtract Unsigned</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>R</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>R[rd] = R[rs] - R[rt]</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>000000</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>rt</span></p>
-			</td>
-			<td width=46 colspan=3 style='width:34.75pt;border-top:none;
-			border-left:none;
-			height:.2in'>
-			<p ><span
-			>rd</span></p>
-			</td>
-			<td width=62 style='width:46.6pt;
-
-			height:.2in'>
-			<p ><span
-			>00000</span></p>
-			</td>
-			<td width=63 style='width:47.2pt;
-			height:.2in'>
-			<p ><span
-			>100011</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>XOR rd, rs, rt</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>Exclusive Or</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>R</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>R[rd] = R[rs] ^ R[rt]</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>000000</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>rt</span></p>
-			</td>
-			<td width=46 colspan=3 style='width:34.75pt;border-top:none;
-			border-left:none;
-			height:.2in'>
-			<p ><span
-			>rd</span></p>
-			</td>
-			<td width=62 style='width:46.6pt;
-
-			height:.2in'>
-			<p ><span
-			>00000</span></p>
-			</td>
-			<td width=63 style='width:47.2pt;
-			height:.2in'>
-			<p ><span
-			>100110</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>XORI rd, rs, imm</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>Exclusive Or Immediate</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>I</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>R[rt] = R[rs] ^ ZeroExtImm</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>001110</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-				<td>rt</td>
-				<td width=171 colspan=5>imm</td>
-			</tr>
-			<tr>
-				<th width=1228 colspan=12 scope="row">Shifter</th>
-			</tr>
-			<tr>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>SLL rd, rt, sa</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>Shift Left Logical</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>R</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>R[rd] = R[rt] &lt;&lt; sa</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>000000</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>rt</span></p>
-			</td>
-			<td width=46 colspan=3 style='width:34.75pt;border-top:none;
-			border-left:none;
-			height:.2in'>
-			<p ><span
-			>rd</span></p>
-			</td>
-			<td width=62 style='width:46.6pt;
-
-			height:.2in'>
-			<p ><span
-			>sa</span></p>
-			</td>
-			<td width=63 style='width:47.2pt;
-			height:.2in'>
-			<p ><span
-			>000000</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>SLLV rd, rt, rs</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>Shift Left Logical Variable</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>R</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>R[rd] = R[rt] &lt;&lt; R[rs]</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>000000</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>rt</span></p>
-			</td>
-			<td width=46 colspan=3 style='width:34.75pt;border-top:none;
-			border-left:none;
-			height:.2in'>
-			<p ><span
-			>rd</span></p>
-			</td>
-			<td width=62 style='width:46.6pt;
-
-			height:.2in'>
-			<p ><span
-			>00000</span></p>
-			</td>
-			<td width=63 style='width:47.2pt;
-			height:.2in'>
-			<p ><span
-			>000100</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>SRA rd, rt, a</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>Shift Right Arithmetic</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>R</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>R[rd] = R[rt] &lt;&lt;&lt; sa</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>000000</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>00000</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>rt</span></p>
-			</td>
-			<td width=46 colspan=3 style='width:34.75pt;border-top:none;
-			border-left:none;
-			height:.2in'>
-			<p ><span
-			>rd</span></p>
-			</td>
-			<td width=62 style='width:46.6pt;
-
-			height:.2in'>
-			<p ><span
-			>sa</span></p>
-			</td>
-			<td width=63 style='width:47.2pt;
-			height:.2in'>
-			<p ><span
-			>000011</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>SRAV rd, rt, rs</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>Shift Right Arithmetic Variable</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>R</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>R[rd] = R[rt] &lt;&lt;&lt; R[rs]</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>000000</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>rt</span></p>
-			</td>
-			<td width=46 colspan=3 style='width:34.75pt;border-top:none;
-			border-left:none;
-			height:.2in'>
-			<p ><span
-			>rd</span></p>
-			</td>
-			<td width=62 style='width:46.6pt;
-
-			height:.2in'>
-			<p ><span
-			>00000</span></p>
-			</td>
-			<td width=63 style='width:47.2pt;
-			height:.2in'>
-			<p ><span
-			>000111</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>SRL rd, rt, sa</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>Shift Right Logical</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>R</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>R[rd] = R[rt] &gt;&gt; sa</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>000000</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>rt</span></p>
-			</td>
-			<td width=46 colspan=3 style='width:34.75pt;border-top:none;
-			border-left:none;
-			height:.2in'>
-			<p ><span
-			>rd</span></p>
-			</td>
-			<td width=62 style='width:46.6pt;
-
-			height:.2in'>
-			<p ><span
-			>sa</span></p>
-			</td>
-			<td width=63 style='width:47.2pt;
-			height:.2in'>
-			<p ><span
-			>000010</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>SRLV rd, rt, rs</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>Shift Right Logical Variable</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>R</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>R[rd] = R[rt] &gt;&gt; R[rs]</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>000000</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>rt</span></p>
-			</td>
-			<td width=46 colspan=3 style='width:34.75pt;border-top:none;
-			border-left:none;
-			height:.2in'>
-			<p ><span
-			>rd</span></p>
-			</td>
-			<td width=62 style='width:46.6pt;
-
-			height:.2in'>
-			<p ><span
-			>00000</span></p>
-			</td>
-			<td width=63 style='width:47.2pt;
-			height:.2in'>
-			<p ><span
-			>000110</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td width=1228 colspan=12 style='width:921.25pt;border:none;
-
-			height:.2in'>
-			<p ><b><span
-			>Multiply</span></b></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>DIV rs, rt</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>Divide</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>R</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>HI = $signed(rs % rt); LO = $signed(rs / rt)</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>000000</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>rt</span></p>
-			</td>
-			<td width=108 colspan=4 style='width:81.35pt;border-top:none;
-			border-left:none;
-			height:.2in'>
-			<p ><span
-			>0000000000</span></p>
-			</td>
-			<td width=63 style='width:47.2pt;
-			height:.2in'>
-			<p ><span
-			>011010</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>DIVU rs, rt</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>Divide Unsigned</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>R</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>HI = rs % rt; LO = rs / rt</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>000000</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>rt</span></p>
-			</td>
-			<td width=108 colspan=4 style='width:81.35pt;border-top:none;
-			border-left:none;
-			height:.2in'>
-			<p ><span
-			>0000000000</span></p>
-			</td>
-			<td width=63 style='width:47.2pt;
-			height:.2in'>
-			<p ><span
-			>011011</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>MFHI rd</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>Move From HI</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>R</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>R[rd] = HI</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>000000</span></p>
-			</td>
-			<td colspan=2 style='border-bottom:
-			solid #C9C9C9 1.0pt;
-			height:.2in'>
-			<p ><span
-			>0000000000</span></p>
-			</td>
-			<td colspan=3 style='border-bottom:
-			solid #C9C9C9 1.0pt;
-			height:.2in'>
-			<p ><span
-			>rd</span></p>
-			</td>
-			<td width=62 style='width:46.6pt;
-
-			height:.2in'>
-			<p ><span
-			>00000</span></p>
-			</td>
-			<td width=63 style='width:47.2pt;
-			height:.2in'>
-			<p ><span
-			>010000</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>MFLO rd</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>Move From LO</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>R</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>R[rd] = LO</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>000000</span></p>
-			</td>
-			<td colspan=2 style='border-bottom:
-			solid #C9C9C9 1.0pt;border-right:solid #C9C9C9 1.0pt;
-			height:.2in'>
-			<p ><span
-			>0000000000</span></p>
-			</td>
-			<td colspan=3 style='border-bottom:
-			solid #C9C9C9 1.0pt;border-right:solid #C9C9C9 1.0pt;
-			height:.2in'>
-			<p ><span
-			>rd</span></p>
-			</td>
-			<td width=62 style='width:46.6pt;
-
-			height:.2in'>
-			<p ><span
-			>00000</span></p>
-			</td>
-			<td width=63 style='width:47.2pt;
-			height:.2in'>
-			<p ><span
-			>010010</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>MULT rs, rt</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>Multiply</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>R</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>{HI,LO} = $signed({ {32{R[rs](31)}},R[rs]} *
-			</span></p>
-			<p ><span
-			>{ {32{ R[rt](31) }},R[rt]});</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>000000</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>rt</span></p>
-			</td>
-			<td width=108 colspan=4 style='width:81.35pt;border-top:none;
-			border-left:none;
-			height:.2in'>
-			<p ><span
-			>0000000000</span></p>
-			</td>
-			<td width=63 style='width:47.2pt;
-			height:.2in'>
-			<p ><span
-			>011000</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>MULTU rs, rt</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>Multiply Unsigned</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>R</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>{HI,LO} = R[rs] * R[rt]</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>000000</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>rt</span></p>
-			</td>
-			<td width=108 colspan=4 style='width:81.35pt;border-top:none;
-			border-left:none;
-			height:.2in'>
-			<p ><span
-			>0000000000</span></p>
-			</td>
-			<td width=63 style='width:47.2pt;
-			height:.2in'>
-			<p ><span
-			>011001</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td width=1228 colspan=12 style='width:921.25pt;border:none;
-			height:.2in'>
-			<p ><b><span
-			style='font-family:"LM Mono 10";color:black;background:white'>Branch</span></b></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>BEQ rs, rt, offset</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>Branch On Equal</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>I</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>if(R[rs] == R[rt]) pc += (offset
-			&lt;&lt; 2) + 4</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>000100</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>rt</span></p>
-			</td>
-			<td width=171 colspan=5 style='width:128.55pt;border:none;
-
-			height:.2in'>
-			<p ><span
-			>offset</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>BGEZ rs, offset</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>Branch On &gt;= 0</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>I</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>if(R[rs] &gt;= 0) pc += (offset &lt;&lt; 2)
-			+ 4</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>000001</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>00001</span></p>
-			</td>
-			<td width=171 colspan=5 style='width:128.55pt;border:none;
-			height:.2in'>
-			<p ><span
-			>offset</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>BGEZAL rs, offset</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>Branch On &gt;= 0 And Link</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>I</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>R[$ra] = pc; if(R[rs] &gt;= 0)
-			pc += (offset &lt;&lt; 2) + 4</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>000001</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>10001</span></p>
-			</td>
-			<td width=171 colspan=5 style='width:128.55pt;border:none;
-
-			height:.2in'>
-			<p ><span
-			>offset</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>BGTZ rs, offset</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>Branch On &gt; 0</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>I</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>if(R[rs] &gt; 0) pc += (offset &lt;&lt; 2) +
-			4</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>000111</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>00000</span></p>
-			</td>
-			<td width=171 colspan=5 style='width:128.55pt;border:none;
-			height:.2in'>
-			<p ><span
-			>offset</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>BLEZ rs, offset</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>Branch On &lt;= 0</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>I</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>if(R[rs] &lt;= 0) pc += (offset
-			&lt;&lt; 2) + 4</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>000110</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>00000</span></p>
-			</td>
-			<td width=171 colspan=5 style='width:128.55pt;border:none;
-
-			height:.2in'>
-			<p ><span
-			>offset</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>BLTZ rs, offset</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>Branch On &lt; 0</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>I</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>if(R[rs] &lt; 0 ) pc += (offset &lt;&lt; 2)
-			+ 4</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>000001</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>00000</span></p>
-			</td>
-			<td width=171 colspan=5 style='width:128.55pt;border:none;
-			height:.2in'>
-			<p ><span
-			>offset</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>BLTZAL rs, offset</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>Branch On &lt; 0 And Link</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>I</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>R[$ra] = pc; if(R[rs] &lt; 0) pc
-			+= (offset &lt;&lt; 2) + 4</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>000001</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>10000</span></p>
-			</td>
-			<td width=171 colspan=5 style='width:128.55pt;border:none;
-
-			height:.2in'>
-			<p ><span
-			>offset</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>BNE rs, rt, offset</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>Branch On Not Equal</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>I</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>if(R[rs] != R[rt]) pc += (offset &lt;&lt; 2)
-			+ 4</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>000101</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>rt</span></p>
-			</td>
-			<td width=171 colspan=5 style='width:128.55pt;border:none;
-			height:.2in'>
-			<p ><span
-			>offset</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td width=1228 colspan=12 style='width:921.25pt;border:none;
-
-			height:.2in'>
-			<p ><b><span
-			>Jump</span></b></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>J target</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>Jump</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>J</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>pc = pc_upper | (target &lt;&lt; 2)</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>000010</span></p>
-			</td>
-			<td width=281 colspan=7 style='width:211.05pt;border:none;
-			height:.2in'>
-			<p ><span
-			>target</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>JAL target</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>Jump and Link</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>J</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>R[$ra] = pc; pc = (target &lt;&lt;
-			2)</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>000011</span></p>
-			</td>
-			<td width=281 colspan=7 style='width:211.05pt;border:none;
-
-			height:.2in'>
-			<p ><span
-			>target</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>JALR</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>Jump and Link Register</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>J</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>R[rd] = pc; pc = R[rs]</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>000000</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td width=70 colspan=2 style='width:52.6pt;border-top:none;
-			border-left:none;
-			height:.2in'>
-			<p ><span
-			>00000</span></p>
-			</td>
-			<td width=31 colspan=2 style='width:23.4pt;border-top:none;
-			border-left:none;
-			height:.2in'>
-			<p ><span
-			>rd</span></p>
-			</td>
-			<td width=62 style='width:46.6pt;
-
-			height:.2in'>
-			<p ><span
-			>00000</span></p>
-			</td>
-			<td width=63 style='width:47.2pt;
-			height:.2in'>
-			<p ><span
-			>001001</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>JR</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>Jump Register</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>J</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>pc = R[rs]</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>000000</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td width=163 colspan=5 style='width:122.6pt;border-top:none;
-			border-left:none;
-			height:.2in'>
-			<p ><span
-			>000000000000000</span></p>
-			</td>
-			<td width=63 style='width:47.2pt;
-			height:.2in'>
-			<p ><span
-			>001000</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td width=1228 colspan=12 style='width:921.25pt;border:none;
-			height:.2in'>
-			<p ><b><span
-			style='font-family:"LM Mono 10";color:black;background:white'>Memory Access</span></b></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>LB rt, offset(rs)</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>Load Byte</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>I</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>R[rt] = SignExt(M[R[rs]+SignExtImm](7:0))</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>100000</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td colspan=3 style='border-bottom:
-			solid #C9C9C9 1.0pt;border-right:solid #C9C9C9 1.0pt;
-			height:.2in'>
-			<p ><span
-			>rt</span></p>
-			</td>
-			<td width=141 colspan=3 style='width:105.5pt;border:none;
-
-			height:.2in'>
-			<p ><span
-			>offset/imm</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>LBU rt, offset(rs)</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>Load Byte Unsigned</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>I</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>R[rt] = {24’b0, M[R[rs]+SignExtImm](7:0)}</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>100100</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td colspan=3 style='border-bottom:
-			solid #C9C9C9 1.0pt;
-			height:.2in'>
-			<p ><span
-			>rt</span></p>
-			</td>
-			<td width=141 colspan=3 style='width:105.5pt;border:none;
-			height:.2in'>
-			<p ><span
-			>offset/imm</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>LH rt, offset(rs)</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>Load Halfword</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>I</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>R[rt] = SignExt(M[R[rs]+SignExtImm](15:0))</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>100001</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td colspan=3 style='border-bottom:
-			solid #C9C9C9 1.0pt;border-right:solid #C9C9C9 1.0pt;
-			height:.2in'>
-			<p ><span
-			>rt</span></p>
-			</td>
-			<td width=141 colspan=3 style='width:105.5pt;border:none;
-
-			height:.2in'>
-			<p ><span
-			>offset/imm</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>LHU rt, offset(rs)</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>Load Halfword Unsiged</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>I</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>R[rt] = {16’b0, M[R[rs]+SignExtImm](15:0)}</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>100101</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td colspan=3 style='border-bottom:
-			solid #C9C9C9 1.0pt;
-			height:.2in'>
-			<p ><span
-			>rt</span></p>
-			</td>
-			<td width=141 colspan=3 style='width:105.5pt;border:none;
-			height:.2in'>
-			<p ><span
-			>offset/imm</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>LW rt, offset(rs)</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>Load Word</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>I</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>R[rt] = M[R[rs]+SignExtImm]</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>100011</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td colspan=3 style='border-bottom:
-			solid #C9C9C9 1.0pt;border-right:solid #C9C9C9 1.0pt;
-			height:.2in'>
-			<p ><span
-			>rt</span></p>
-			</td>
-			<td width=141 colspan=3 style='width:105.5pt;border:none;
-
-			height:.2in'>
-			<p ><span
-			>offset/imm</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>SB rt, offset(rs)</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>Store Byte</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>I</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>M[R[rs]+SignExtImm](7:0) = R[rt](7:0)</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>101000</span></p>
-			</td>
-			<td style='
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td colspan=3 style='border-bottom:
-			solid #C9C9C9 1.0pt;
-			height:.2in'>
-			<p ><span
-			>rt</span></p>
-			</td>
-			<td width=141 colspan=3 style='width:105.5pt;border:none;
-			height:.2in'>
-			<p ><span
-			>offset/imm</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>SH rt,offset(rs)</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>Store Halfword</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>I</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>M[R[rs]+SignExtImm](15:0) =
-			R[rt](15:0)</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>101001</span></p>
-			</td>
-			<td style='
-
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td colspan=3 style='border-bottom:
-			solid #C9C9C9 1.0pt;border-right:solid #C9C9C9 1.0pt;
-			height:.2in'>
-			<p ><span
-			>rt</span></p>
-			</td>
-			<td width=141 colspan=3 style='width:105.5pt;border:none;
-
-			height:.2in'>
-			<p ><span
-			>offset/imm</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td style='border-bottom:solid windowtext 1.0pt;
-			height:.2in'>
-			<p ><span
-			>SW rt,offset(rs)</span></p>
-			</td>
-			<td style='border-bottom:solid windowtext 1.0pt;
-			height:.2in'>
-			<p ><span
-			>Store Word</span></p>
-			</td>
-			<td style='border-bottom:solid windowtext 1.0pt;
-			height:.2in'>
-			<p ><span
-			>I</span></p>
-			</td>
-			<td style='border-bottom:solid windowtext 1.0pt;
-			height:.2in'>
-			<p ><span
-			>M[R[rs]+SignExtImm] = R[rt]</span></p>
-			</td>
-			<td style='border-bottom:solid windowtext 1.0pt;
-			height:.2in'>
-			<p ><span
-			>101011</span></p>
-			</td>
-			<td style='border-bottom:solid windowtext 1.0pt;
-			height:.2in'>
-			<p ><span
-			>rs</span></p>
-			</td>
-			<td colspan=3 style='border-bottom:
-			solid windowtext 1.0pt;
-			height:.2in'>
-			<p ><span
-			>rt</span></p>
-			</td>
-			<td width=141 colspan=3 style='width:105.5pt;border:none;
-			border-bottom:solid windowtext 1.0pt;height:.2in'>
-			<p style='margin-bottom:0in;line-height:normal;page-break-after:
-			avoid'><span >offset/imm</span></p>
-			</td>
-			</tr>
-			<tr>
-			<td width=1228 colspan=12 style='width:921.25pt;border:none;
-
-			height:.2in'>
-			<p style='margin-bottom:0in;line-height:normal;page-break-after:
-			avoid'><span >SignExtImm = {16{imm[15],
-			imm}</span></p>
-			<p>ZeroExtImm = {16{1’b0},imm}</p>
-			<p style='margin-bottom:0in;line-height:normal;page-break-after:
-			avoid'><span >pc_upper = pc[31:28]</span></p>
-			<p style='margin-bottom:0in;line-height:normal;page-break-after:
-			avoid'><span >Ov = Overflow Flag, Active High</span></p>
-			</td>
-			</tr>
-			</table>
-
+		<div class="container bg-light" id="main-content">
+			<h1>Introduction</h1>
+				<p>[catchy sentence for techy people]</p>
+				<p>[a paragraph or two about why a complete processor is dope]</o>
+				<p>[behavioral, not structural]</p>
+			<h1>Goal: The Complete MIPS Instruction Set</h1>
+			<p> To implement a complete MIPS processor, we needed a complete definition of the processor’s behavior.</p>
+				<h2>Core Instruction Set Definition</h2>
+				<div class="table-responsive">
+					<table class="table table-bordered table-sm table-hover">
+						<thead>
+							<tr >
+								<th>Instruction</th>
+								<th>Name</th>
+								<th>Format</th>
+								<th>Verilog Operation</th>
+								<th colspan=6>Opcode bitfields</th>
+							</tr>
+						</thead>
+						<thead>
+							<tr class="table-secondary">
+								<th colspan=10>
+									Arithmetic Logic Unit
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+						<tr>
+							<td>ADD rd, rs, rt</td>
+							<td>Add</td>
+							<td>R</td>
+							<td>R[rd] = R[rs] + R[rt];<br>
+								Ov = (R[rs](31)==R[rt](31))&amp;~(R[rt](31)==R[rd](31))
+							</td>
+							<td>000000</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td >rd</td>
+							<td>00000</td>
+							<td>100000</td>
+						</tr>
+						<tr>
+							<td>ADDI rt, rs, imm</td>
+							<td>Add Immediate</td>
+							<td>I</td>
+							<td>R[rt] = R[rs] + SignExtImm;<br>
+								Ov = (R[rs](31)==R[rt](31))&amp;~(R[rt](31)==R[rd](31))
+							</td>
+							<td>001000</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td colspan=3>imm</td>
+						</tr>
+						<tr>
+							<td>ADDIU rt, rs, imm</td>
+							<td>Add Immediate Unsigned</td>
+							<td>I</td>
+							<td>R[rt] = R[rs] + SignExtImm</td>
+							<td>001001</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td colspan=3>imm</td>
+						</tr>
+						<tr>
+							<td>ADDU rd, rs, rt</td>
+							<td>Add Unsiged</td>
+							<td>R</td>
+							<td>R[rd] = R[rs] + R[rt]</td>
+							<td>000000</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td >rd</t	d>
+							<td>00000</td>
+							<td>100001</td>
+						</tr>
+						<tr>
+							<td>AND rd, rs, rt</td>
+							<td>And</td>
+							<td>R</td>
+							<td>R[rd] = R[rs] &amp; R[rt]</td>
+							<td>000000	</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td >rd</td>
+							<td>00000</td>
+							<td>100100</td>
+						</tr>
+						<tr>
+							<td>ANDI rt, rs, imm</td>
+							<td>And Immediate</td>
+							<td>I</td>
+							<td>R[rt] = R[rs] &amp; ZeroExtImm</td>
+							<td>001100</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td colspan=3>imm</td>
+						</tr>
+						<tr>
+							<td>LUI rt, imm</td>
+							<td>Load Upper Immediate</td>
+							<td>I</td>
+							<td>R[rt] = {imm,16’b0}</td>
+							<td>001111</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td colspan=3>imm</td>
+						</tr>
+						<tr>
+							<td>NOR rd, rs, rt</td>
+							<td>Nor</td>
+							<td>R</td>
+							<td>R[rd] = ~(R[rs] | R[rt])</td>
+							<td>000000</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td >rd</td>
+							<td>00000</td>
+							<td>100111</td>
+						</tr>
+						<tr>
+							<td>OR rd, rs, rt</td>
+							<td>Or</td>
+							<td>R</td>
+							<td>R[rd] = R[rs] | R[rt]</td>
+							<td>000000</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td >rd</td>
+							<td>00000</td>
+							<td>100101</td>
+						</tr>
+						<tr>
+							<td>ORI rt, rs, imm</td>
+							<td>Or Immediate</td>
+							<td>I</td>
+							<td>R[rt] = R[rs] | ZeroExtImm</td>
+							<td>001101</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td colspan=3>imm</td>
+						</tr>
+						<tr>
+							<td>SLT rd, rs, rt</td>
+							<td>Set Less Than</td>
+							<td>R</td>
+							<td>R[rd] = $signed (R[rs] &lt; R[rt])?1:0</td>
+							<td>000000</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td >rd</td>
+							<td>00000</td>
+							<td>101010</td>
+						</tr>
+						<tr>
+							<td>SLTI rt, rs, imm</td>
+							<td>Set Less Than Immediate</td>
+							<td>I</td>
+							<td>R[rt] = $signed(R[rs] &lt; SignExtImm)?1:0</td>
+							<td>001010</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td colspan=3>imm</td>
+						</tr>
+						<tr>
+							<td>SLTIU rt, rs, imm</td>
+							<td>Set Less Than Immediate Unsigned</td>
+							<td>I</td>
+							<td>R[rt] = (R[rs] &lt; SignExtImm)?1:0</td>
+							<td>001011</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td colspan=3>imm</td>
+						</tr>
+						<tr>
+							<td>SLTU rd, rs, rt</td>
+							<td>Set Less Than Unsigned</td>
+							<td>R</td>
+							<td>R[rd] = (R[rs] &lt; R[rt])?1:0</td>
+							<td>000000</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td >rd</td>
+							<td>00000</td>
+							<td>101011</td>
+						</tr>
+						<tr>
+							<td>SUB rd, rs, rt</td>
+							<td>Subtract</td>
+							<td>R</td>
+							<td>R[rd] = $signed(R[rs] - R[rt]);<br>
+								Ov = ~(R[rs](31)==R[rt](31))&amp;(R[rt](31)==R[rd](31))
+							</td>
+							<td>000000</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td >rd</td>
+							<td>00000</td>
+							<td>100010</td>
+						</tr>
+						<tr>
+							<td>SUBU rd, rs, rt</td>
+							<td>Subtract Unsigned</td>
+							<td>R</td>
+							<td>R[rd] = R[rs] - R[rt]</td>
+							<td>000000</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td >rd</td>
+							<td>00000</td>
+							<td>100011</td>
+						</tr>
+						<tr>
+							<td>XOR rd, rs, rt</td>
+							<td>Exclusive Or</td>
+							<td>R</td>
+							<td>R[rd] = R[rs] ^ R[rt]</td>
+							<td>000000</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td >rd</td>
+							<td>00000</td>
+							<td>100110</td>
+						</tr>
+						<tr>
+							<td>XORI rd, rs, imm</td>
+							<td>Exclusive Or Immediate</td>
+							<td>I</td>
+							<td>R[rt] = R[rs] ^ ZeroExtImm</td>
+							<td>001110</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td colspan=3>imm</td>
+						</tr>
+						<tr class="table-secondary">
+							<th colspan=10 scope="row">Shifter</th>
+						</tr>
+						<tr>
+							<td>SLL rd, rt, sa</td>
+							<td>Shift Left Logical</td>
+							<td>R</td>
+							<td>R[rd] = R[rt] &lt;&lt; sa</td>
+							<td>000000</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td >rd</td>
+							<td>sa</td>
+							<td>000000</td>
+						</tr>
+						<tr>
+							<td>SLLV rd, rt, rs</td>
+							<td>Shift Left Logical Variable</td>
+							<td>R</td>
+							<td>R[rd] = R[rt] &lt;&lt; R[rs]</td>
+							<td>000000</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td >rd</td>
+							<td>00000</td>
+							<td>000100</td>
+						</tr>
+						<tr>
+							<td>SRA rd, rt, a</td>
+							<td>Shift Right Arithmetic</td>
+							<td>R</td>
+							<td>R[rd] = R[rt] &lt;&lt;&lt; sa</td>
+							<td>000000</td>
+							<td>00000</td>
+							<td>rt</td>
+							<td >rd</td>
+							<td>sa</td>
+							<td>000011</td>
+						</tr>
+						<tr>
+							<td>SRAV rd, rt, rs</td>
+							<td>Shift Right Arithmetic Variable</td>
+							<td>R</td>
+							<td>R[rd] = R[rt] &lt;&lt;&lt; R[rs]</td>
+							<td>000000</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td >rd</td>
+							<td>00000</td>
+							<td>000111</td>
+						</tr>
+						<tr>
+							<td>SRL rd, rt, sa</td>
+							<td>Shift Right Logical</td>
+							<td>R</td>
+							<td>R[rd] = R[rt] &gt;&gt; sa</td>
+							<td>000000</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td >rd</td>
+							<td>sa</td>
+							<td>000010</td>
+						</tr>
+						<tr>
+							<td>SRLV rd, rt, rs</td>
+							<td>Shift Right Logical Variable</td>
+							<td>R</td>
+							<td>R[rd] = R[rt] &gt;&gt; R[rs]</td>
+							<td>000000</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td >rd</td>
+							<td>00000</td>
+							<td>000110</td>
+						</tr>
+						<tr class="table-secondary">
+							<th colspan=10>Multiply</th>
+						</tr>
+						<tr>
+							<td>DIV rs, rt</td>
+							<td>Divide</td>
+							<td>R</td>
+							<td>HI = $signed(rs % rt); LO = $signed(rs / rt)</td>
+							<td>000000</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td colspan=2>0000000000</td>
+							<td>011010</td>
+						</tr>
+						<tr>
+							<td>DIVU rs, rt</td>
+							<td>Divide Unsigned</td>
+							<td>R</td>
+							<td>HI = rs % rt; LO = rs / rt</td>
+							<td>000000</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td colspan=2>0000000000</td>
+							<td>011011</td>
+						</tr>
+						<tr>
+							<td>MFHI rd</td>
+							<td>Move From HI</td>
+							<td>R</td>
+							<td>R[rd] = HI</td>
+							<td>000000</td>
+							<td colspan=2>0000000000</td>
+							<td >rd</td>
+							<td>00000</td>
+							<td>010000</td>
+						</tr>
+						<tr>
+							<td>MFLO rd</td>
+							<td>Move From LO</td>
+							<td>R</td>
+							<td>R[rd] = LO</td>
+							<td>000000</td>
+							<td colspan=2>0000000000</td>
+							<td >rd</td>
+							<td>00000</td>
+							<td>010010</td>
+						</tr>
+						<tr>
+							<td>MULT rs, rt</td>
+							<td>Multiply</td>
+							<td>R</td>
+							<td>{HI,LO} = $signed({ {32{R[rs](31)}},R[rs]} * <br>
+								{ {32{ R[rt](31) }},R[rt]});</td>
+							<td>000000</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td colspan=2>0000000000</td>
+							<td>011000</td>
+						</tr>
+						<tr>
+							<td>MULTU rs, rt</td>
+							<td>Multiply Unsigned</td>
+							<td>R</td>
+							<td>{HI,LO} = R[rs] * R[rt]</td>
+							<td>000000</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td colspan=2>0000000000</td>
+							<td>011001</td>
+						</tr>
+						<tr class="table-secondary">
+							<th colspan=10>Branch</th>
+						</tr>
+						<tr>
+							<td>BEQ rs, rt, offset</td>
+							<td>Branch On Equal</td>
+							<td>I</td>
+							<td>if(R[rs] == R[rt]) pc += (offset &lt;&lt; 2) + 4</td>
+							<td>000100</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td colspan=3>offset</td>
+						</tr>
+						<tr>
+							<td>BGEZ rs, offset</td>
+							<td>Branch On &gt;= 0</td>
+							<td>I</td>
+							<td>if(R[rs] &gt;= 0) pc += (offset &lt;&lt; 2) + 4</td>
+							<td>000001</td>
+							<td>rs</td>
+							<td>00001</td>
+							<td colspan=3>offset</td>
+						</tr>
+						<tr>
+							<td>BGEZAL rs, offset</td>
+							<td>Branch On &gt;= 0 And Link</td>
+							<td>I</td>
+							<td>R[$ra] = pc; if(R[rs] &gt;= 0) pc += (offset &lt;&lt; 2) + 4</td>
+							<td>000001</td>
+							<td>rs</td>
+							<td>10001</td>
+							<td colspan=3>offset</td>
+						</tr>
+						<tr>
+							<td>BGTZ rs, offset</td>
+							<td>Branch On &gt; 0</td>
+							<td>I</td>
+							<td>if(R[rs] &gt; 0) pc += (offset &lt;&lt; 2) + 4 </td>
+							<td>000111</td>
+							<td>rs</td>
+							<td>00000</td>
+							<td colspan=3>offset</td>
+						</tr>
+						<tr>
+							<td>BLEZ rs, offset</td>
+							<td>Branch On &lt;= 0</td>
+							<td>I</td>
+							<td>if(R[rs] &lt;= 0) pc += (offset &lt;&lt; 2) + 4</td>
+							<td>000110</td>
+							<td>rs</td>
+							<td>00000</td>
+							<td colspan=3>offset</td>
+						</tr>
+						<tr>
+							<td>BLTZ rs, offset</td>
+							<td>Branch On &lt; 0</td>
+							<td>I</td>
+							<td>if(R[rs] &lt; 0 ) pc += (offset &lt;&lt; 2) + 4</td>
+							<td>000001</td>
+							<td>rs</td>
+							<td>00000</td>
+							<td colspan=3>offset</td>
+						</tr>
+						<tr>
+							<td>BLTZAL rs, offset</td>
+							<td>Branch On &lt; 0 And Link</td>
+							<td>I</td>
+							<td>R[$ra] = pc; if(R[rs] &lt; 0) pc += (offset &lt;&lt; 2) + 4</td>
+							<td>000001</td>
+							<td>rs</td>
+							<td>10000</td>
+							<td colspan=3>offset</td>
+						</tr>
+						<tr>
+							<td>BNE rs, rt, offset</td>
+							<td>Branch On Not Equal</td>
+							<td>I</td>
+							<td>if(R[rs] != R[rt]) pc += (offset &lt;&lt; 2) + 4</td>
+							<td>000101</td>
+							<td>rs</td>
+							<td>rt
+							</td>
+							<td colspan=3>offset</td>
+						</tr>
+						<tr class="table-secondary">
+							<th colspan=10>Jump</th>
+						</tr>
+						<tr>
+							<td>J target</td>
+							<td>Jump</td>
+							<td>J</td>
+							<td>pc = pc_upper | (target &lt;&lt; 2)</td>
+							<td>000010</td>
+							<td colspan=5>target</td>
+						</tr>
+						<tr>
+							<td>JAL target</td>
+							<td>Jump and Link</td>
+							<td>J</td>
+							<td>R[$ra] = pc; pc = (target &lt;&lt;2)</td>
+							<td>000011</td>
+							<td colspan=5>target</td>
+						</tr>
+						<tr>
+							<td>JALR</td>
+							<td>Jump and Link Register</td>
+							<td>J</td>
+							<td>R[rd] = pc; pc = R[rs]</td>
+							<td>000000</td>
+							<td>rs</td>
+							<td>00000</td>
+							<td>rd</td>
+							<td>00000</td>
+							<td>001001</td>
+						</tr>
+						<tr>
+							<td>JR</td>
+							<td>Jump Register</td>
+							<td>J</td>
+							<td>pc = R[rs]</td>
+							<td>000000</td>
+							<td>rs</td>
+							<td colspan=3>000000000000000</td>
+							<td>001000</td>
+						</tr>
+						<tr class="table-secondary">
+							<th colspan=10 scope="row">Memory Access</th>
+						</tr>
+						<tr>
+							<td>LB rt, offset(rs)</td>
+							<td>Load Byte</td>
+							<td>I</td>
+							<td>R[rt] = SignExt(M[R[rs]+SignExtImm](7:0))</td>
+							<td>100000</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td colspan=3>offset/imm</td>
+						</tr>
+						<tr>
+							<td>LBU rt, offset(rs)</td>
+							<td>Load Byte Unsigned</td>
+							<td>I</td>
+							<td>R[rt] = {24’b0, M[R[rs]+SignExtImm](7:0)}</td>
+							<td>100100</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td colspan=3>offset/imm</td>
+						</tr>
+						<tr>
+							<td>LH rt, offset(rs)</td>
+							<td>Load Halfword</td>
+							<td>I</td>
+							<td>R[rt] = SignExt(M[R[rs]+SignExtImm](15:0))</td>
+							<td>100001</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td colspan=3>offset/imm</td>
+						</tr>
+						<tr>
+							<td>LHU rt, offset(rs)</td>
+							<td>Load Halfword Unsiged</td>
+							<td>I</td>
+							<td>R[rt] = {16’b0, M[R[rs]+SignExtImm](15:0)}</td>
+							<td>100101</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td colspan=3>offset/imm</td>
+						</tr>
+						<tr>
+							<td>LW rt, offset(rs)</td>
+							<td>Load Word</td>
+							<td>I</td>
+							<td>R[rt] = M[R[rs]+SignExtImm]</td>
+							<td>100011</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td colspan=3>offset/imm</td>
+						</tr>
+						<tr>
+							<td>SB rt, offset(rs)</td>
+							<td>Store Byte</td>
+							<td>I</td>
+							<td>M[R[rs]+SignExtImm](7:0) = R[rt](7:0)</td>
+							<td>101000</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td colspan=3>offset/imm</td>
+						</tr>
+						<tr>
+							<td>SH rt,offset(rs)</td>
+							<td>Store Halfword</td>
+							<td>I</td>
+							<td>M[R[rs]+SignExtImm](15:0) = R[rt](15:0)</td>
+							<td>101001</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td colspan=3>offset/imm</td>
+						</tr>
+						<tr>
+							<td>SW rt,offset(rs)</td>
+							<td>Store Word</td>
+							<td>I</td>
+							<td>M[R[rs]+SignExtImm] = R[rt]</td>
+							<td>101011</td>
+							<td>rs</td>
+							<td>rt</td>
+							<td colspan=3>offset/imm</td>
+						</tr>
+						<tr class="table-info">
+							<td colspan=10>SignExtImm = {16{imm[15],imm}<br>
+								ZeroExtImm = {16{1’b0},imm}<br>
+								pc_upper = pc[31:28]<br>
+								Ov = Overflow Flag, Active High
+							</td>
+						</tr>
+					</table>
+				</div>
+			<h1>Part 1: Base MIPS Processor</h1>
+				<h2>Testbench ("test_cpu.v")</h2>
+				<p>The testbench for this MIPS cpu initializes the processor with compiled data/memory and a reset pulse, then provides a clock until program exit.</p>
+				<div class="mx-auto">
+					<figure class="figure">
+					  <img src="./img/baseMIPS.png" class="figure-img img-fluid rounded" alt="...">
+					  <figcaption class="figure-caption">The base MIPS processor.</figcaption>
+					</figure>
+				</div>
+				<p>The base MIPS processor must perform the basic functions of a single-cycle CPU: instruction fetch, instruction decode, operand fetch, execute, result store. In our Verilog implementation, instruction fetch logic is in module “fetch.v”; data memory and instruction memory are a single module, “memory.v”; instruction decode logic is in “decode.v”; and the arithmetic and logic of the execute step is in “alu.v”. These modules are connected to each other in “cpu.v”.</p>
+				<h2>Top-Level Structure (“cpu.v”)</h2>
+					<h4>Inputs</h4>
+						<ul>
+							<li>Clock</li>
+							<li>Reset</li>
+						</ul>
+					<h4>Outputs</h4>
+						<ul>
+							<li></li>
+						</ul>
 		</div>
 	</main>
 	<footer>
