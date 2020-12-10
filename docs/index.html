@@ -37,620 +37,942 @@
 	</header>
 	<main>
 		<div class="container bg-light" id="main-content">
-			<h1>Introduction</h1>
+			<div class="border-bottom">
+				<h2>Introduction</h2>
 				<p>[catchy sentence for techy people]</p>
 				<p>[a paragraph or two about why a complete processor is dope]</o>
 				<p>[behavioral, not structural]</p>
-			<h1>Goal: The Complete MIPS Instruction Set</h1>
-			<p> To implement a complete MIPS processor, we needed a complete definition of the processor’s behavior.</p>
-				<h2>Core Instruction Set Definition</h2>
+			</div>
+			<div class="border-bottom">
+				<h2>Goal: The Complete MIPS Instruction Set</h2>
+				<p> To implement a complete MIPS processor, we needed a complete definition of the processor’s behavior.</p>
+				<h3>Register File Definition</h3>
 				<div class="table-responsive">
 					<table class="table table-bordered table-sm table-hover">
-						<thead>
-							<tr >
-								<th>Instruction</th>
-								<th>Name</th>
-								<th>Format</th>
-								<th>Verilog Operation</th>
-								<th colspan=6>Opcode bitfields</th>
-							</tr>
-						</thead>
+						<caption>MIPS register file definition</caption>
 						<thead>
 							<tr class="table-secondary">
-								<th colspan=10>
-									Arithmetic Logic Unit
-								</th>
+								<th>Name</th>
+								<th>Number</th>
+								<th>Use</th>
 							</tr>
 						</thead>
 						<tbody>
-						<tr>
-							<td>ADD rd, rs, rt</td>
-							<td>Add</td>
-							<td>R</td>
-							<td>R[rd] = R[rs] + R[rt];<br>
-								Ov = (R[rs](31)==R[rt](31))&amp;~(R[rt](31)==R[rd](31))
-							</td>
-							<td>000000</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td >rd</td>
-							<td>00000</td>
-							<td>100000</td>
-						</tr>
-						<tr>
-							<td>ADDI rt, rs, imm</td>
-							<td>Add Immediate</td>
-							<td>I</td>
-							<td>R[rt] = R[rs] + SignExtImm;<br>
-								Ov = (R[rs](31)==R[rt](31))&amp;~(R[rt](31)==R[rd](31))
-							</td>
-							<td>001000</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td colspan=3>imm</td>
-						</tr>
-						<tr>
-							<td>ADDIU rt, rs, imm</td>
-							<td>Add Immediate Unsigned</td>
-							<td>I</td>
-							<td>R[rt] = R[rs] + SignExtImm</td>
-							<td>001001</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td colspan=3>imm</td>
-						</tr>
-						<tr>
-							<td>ADDU rd, rs, rt</td>
-							<td>Add Unsiged</td>
-							<td>R</td>
-							<td>R[rd] = R[rs] + R[rt]</td>
-							<td>000000</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td >rd</t	d>
-							<td>00000</td>
-							<td>100001</td>
-						</tr>
-						<tr>
-							<td>AND rd, rs, rt</td>
-							<td>And</td>
-							<td>R</td>
-							<td>R[rd] = R[rs] &amp; R[rt]</td>
-							<td>000000	</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td >rd</td>
-							<td>00000</td>
-							<td>100100</td>
-						</tr>
-						<tr>
-							<td>ANDI rt, rs, imm</td>
-							<td>And Immediate</td>
-							<td>I</td>
-							<td>R[rt] = R[rs] &amp; ZeroExtImm</td>
-							<td>001100</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td colspan=3>imm</td>
-						</tr>
-						<tr>
-							<td>LUI rt, imm</td>
-							<td>Load Upper Immediate</td>
-							<td>I</td>
-							<td>R[rt] = {imm,16’b0}</td>
-							<td>001111</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td colspan=3>imm</td>
-						</tr>
-						<tr>
-							<td>NOR rd, rs, rt</td>
-							<td>Nor</td>
-							<td>R</td>
-							<td>R[rd] = ~(R[rs] | R[rt])</td>
-							<td>000000</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td >rd</td>
-							<td>00000</td>
-							<td>100111</td>
-						</tr>
-						<tr>
-							<td>OR rd, rs, rt</td>
-							<td>Or</td>
-							<td>R</td>
-							<td>R[rd] = R[rs] | R[rt]</td>
-							<td>000000</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td >rd</td>
-							<td>00000</td>
-							<td>100101</td>
-						</tr>
-						<tr>
-							<td>ORI rt, rs, imm</td>
-							<td>Or Immediate</td>
-							<td>I</td>
-							<td>R[rt] = R[rs] | ZeroExtImm</td>
-							<td>001101</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td colspan=3>imm</td>
-						</tr>
-						<tr>
-							<td>SLT rd, rs, rt</td>
-							<td>Set Less Than</td>
-							<td>R</td>
-							<td>R[rd] = $signed (R[rs] &lt; R[rt])?1:0</td>
-							<td>000000</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td >rd</td>
-							<td>00000</td>
-							<td>101010</td>
-						</tr>
-						<tr>
-							<td>SLTI rt, rs, imm</td>
-							<td>Set Less Than Immediate</td>
-							<td>I</td>
-							<td>R[rt] = $signed(R[rs] &lt; SignExtImm)?1:0</td>
-							<td>001010</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td colspan=3>imm</td>
-						</tr>
-						<tr>
-							<td>SLTIU rt, rs, imm</td>
-							<td>Set Less Than Immediate Unsigned</td>
-							<td>I</td>
-							<td>R[rt] = (R[rs] &lt; SignExtImm)?1:0</td>
-							<td>001011</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td colspan=3>imm</td>
-						</tr>
-						<tr>
-							<td>SLTU rd, rs, rt</td>
-							<td>Set Less Than Unsigned</td>
-							<td>R</td>
-							<td>R[rd] = (R[rs] &lt; R[rt])?1:0</td>
-							<td>000000</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td >rd</td>
-							<td>00000</td>
-							<td>101011</td>
-						</tr>
-						<tr>
-							<td>SUB rd, rs, rt</td>
-							<td>Subtract</td>
-							<td>R</td>
-							<td>R[rd] = $signed(R[rs] - R[rt]);<br>
-								Ov = ~(R[rs](31)==R[rt](31))&amp;(R[rt](31)==R[rd](31))
-							</td>
-							<td>000000</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td >rd</td>
-							<td>00000</td>
-							<td>100010</td>
-						</tr>
-						<tr>
-							<td>SUBU rd, rs, rt</td>
-							<td>Subtract Unsigned</td>
-							<td>R</td>
-							<td>R[rd] = R[rs] - R[rt]</td>
-							<td>000000</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td >rd</td>
-							<td>00000</td>
-							<td>100011</td>
-						</tr>
-						<tr>
-							<td>XOR rd, rs, rt</td>
-							<td>Exclusive Or</td>
-							<td>R</td>
-							<td>R[rd] = R[rs] ^ R[rt]</td>
-							<td>000000</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td >rd</td>
-							<td>00000</td>
-							<td>100110</td>
-						</tr>
-						<tr>
-							<td>XORI rd, rs, imm</td>
-							<td>Exclusive Or Immediate</td>
-							<td>I</td>
-							<td>R[rt] = R[rs] ^ ZeroExtImm</td>
-							<td>001110</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td colspan=3>imm</td>
-						</tr>
-						<tr class="table-secondary">
-							<th colspan=10 scope="row">Shifter</th>
-						</tr>
-						<tr>
-							<td>SLL rd, rt, sa</td>
-							<td>Shift Left Logical</td>
-							<td>R</td>
-							<td>R[rd] = R[rt] &lt;&lt; sa</td>
-							<td>000000</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td >rd</td>
-							<td>sa</td>
-							<td>000000</td>
-						</tr>
-						<tr>
-							<td>SLLV rd, rt, rs</td>
-							<td>Shift Left Logical Variable</td>
-							<td>R</td>
-							<td>R[rd] = R[rt] &lt;&lt; R[rs]</td>
-							<td>000000</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td >rd</td>
-							<td>00000</td>
-							<td>000100</td>
-						</tr>
-						<tr>
-							<td>SRA rd, rt, a</td>
-							<td>Shift Right Arithmetic</td>
-							<td>R</td>
-							<td>R[rd] = R[rt] &lt;&lt;&lt; sa</td>
-							<td>000000</td>
-							<td>00000</td>
-							<td>rt</td>
-							<td >rd</td>
-							<td>sa</td>
-							<td>000011</td>
-						</tr>
-						<tr>
-							<td>SRAV rd, rt, rs</td>
-							<td>Shift Right Arithmetic Variable</td>
-							<td>R</td>
-							<td>R[rd] = R[rt] &lt;&lt;&lt; R[rs]</td>
-							<td>000000</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td >rd</td>
-							<td>00000</td>
-							<td>000111</td>
-						</tr>
-						<tr>
-							<td>SRL rd, rt, sa</td>
-							<td>Shift Right Logical</td>
-							<td>R</td>
-							<td>R[rd] = R[rt] &gt;&gt; sa</td>
-							<td>000000</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td >rd</td>
-							<td>sa</td>
-							<td>000010</td>
-						</tr>
-						<tr>
-							<td>SRLV rd, rt, rs</td>
-							<td>Shift Right Logical Variable</td>
-							<td>R</td>
-							<td>R[rd] = R[rt] &gt;&gt; R[rs]</td>
-							<td>000000</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td >rd</td>
-							<td>00000</td>
-							<td>000110</td>
-						</tr>
-						<tr class="table-secondary">
-							<th colspan=10>Multiply</th>
-						</tr>
-						<tr>
-							<td>DIV rs, rt</td>
-							<td>Divide</td>
-							<td>R</td>
-							<td>HI = $signed(rs % rt); LO = $signed(rs / rt)</td>
-							<td>000000</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td colspan=2>0000000000</td>
-							<td>011010</td>
-						</tr>
-						<tr>
-							<td>DIVU rs, rt</td>
-							<td>Divide Unsigned</td>
-							<td>R</td>
-							<td>HI = rs % rt; LO = rs / rt</td>
-							<td>000000</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td colspan=2>0000000000</td>
-							<td>011011</td>
-						</tr>
-						<tr>
-							<td>MFHI rd</td>
-							<td>Move From HI</td>
-							<td>R</td>
-							<td>R[rd] = HI</td>
-							<td>000000</td>
-							<td colspan=2>0000000000</td>
-							<td >rd</td>
-							<td>00000</td>
-							<td>010000</td>
-						</tr>
-						<tr>
-							<td>MFLO rd</td>
-							<td>Move From LO</td>
-							<td>R</td>
-							<td>R[rd] = LO</td>
-							<td>000000</td>
-							<td colspan=2>0000000000</td>
-							<td >rd</td>
-							<td>00000</td>
-							<td>010010</td>
-						</tr>
-						<tr>
-							<td>MULT rs, rt</td>
-							<td>Multiply</td>
-							<td>R</td>
-							<td>{HI,LO} = $signed({ {32{R[rs](31)}},R[rs]} * <br>
-								{ {32{ R[rt](31) }},R[rt]});</td>
-							<td>000000</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td colspan=2>0000000000</td>
-							<td>011000</td>
-						</tr>
-						<tr>
-							<td>MULTU rs, rt</td>
-							<td>Multiply Unsigned</td>
-							<td>R</td>
-							<td>{HI,LO} = R[rs] * R[rt]</td>
-							<td>000000</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td colspan=2>0000000000</td>
-							<td>011001</td>
-						</tr>
-						<tr class="table-secondary">
-							<th colspan=10>Branch</th>
-						</tr>
-						<tr>
-							<td>BEQ rs, rt, offset</td>
-							<td>Branch On Equal</td>
-							<td>I</td>
-							<td>if(R[rs] == R[rt]) pc += (offset &lt;&lt; 2) + 4</td>
-							<td>000100</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td colspan=3>offset</td>
-						</tr>
-						<tr>
-							<td>BGEZ rs, offset</td>
-							<td>Branch On &gt;= 0</td>
-							<td>I</td>
-							<td>if(R[rs] &gt;= 0) pc += (offset &lt;&lt; 2) + 4</td>
-							<td>000001</td>
-							<td>rs</td>
-							<td>00001</td>
-							<td colspan=3>offset</td>
-						</tr>
-						<tr>
-							<td>BGEZAL rs, offset</td>
-							<td>Branch On &gt;= 0 And Link</td>
-							<td>I</td>
-							<td>R[$ra] = pc; if(R[rs] &gt;= 0) pc += (offset &lt;&lt; 2) + 4</td>
-							<td>000001</td>
-							<td>rs</td>
-							<td>10001</td>
-							<td colspan=3>offset</td>
-						</tr>
-						<tr>
-							<td>BGTZ rs, offset</td>
-							<td>Branch On &gt; 0</td>
-							<td>I</td>
-							<td>if(R[rs] &gt; 0) pc += (offset &lt;&lt; 2) + 4 </td>
-							<td>000111</td>
-							<td>rs</td>
-							<td>00000</td>
-							<td colspan=3>offset</td>
-						</tr>
-						<tr>
-							<td>BLEZ rs, offset</td>
-							<td>Branch On &lt;= 0</td>
-							<td>I</td>
-							<td>if(R[rs] &lt;= 0) pc += (offset &lt;&lt; 2) + 4</td>
-							<td>000110</td>
-							<td>rs</td>
-							<td>00000</td>
-							<td colspan=3>offset</td>
-						</tr>
-						<tr>
-							<td>BLTZ rs, offset</td>
-							<td>Branch On &lt; 0</td>
-							<td>I</td>
-							<td>if(R[rs] &lt; 0 ) pc += (offset &lt;&lt; 2) + 4</td>
-							<td>000001</td>
-							<td>rs</td>
-							<td>00000</td>
-							<td colspan=3>offset</td>
-						</tr>
-						<tr>
-							<td>BLTZAL rs, offset</td>
-							<td>Branch On &lt; 0 And Link</td>
-							<td>I</td>
-							<td>R[$ra] = pc; if(R[rs] &lt; 0) pc += (offset &lt;&lt; 2) + 4</td>
-							<td>000001</td>
-							<td>rs</td>
-							<td>10000</td>
-							<td colspan=3>offset</td>
-						</tr>
-						<tr>
-							<td>BNE rs, rt, offset</td>
-							<td>Branch On Not Equal</td>
-							<td>I</td>
-							<td>if(R[rs] != R[rt]) pc += (offset &lt;&lt; 2) + 4</td>
-							<td>000101</td>
-							<td>rs</td>
-							<td>rt
-							</td>
-							<td colspan=3>offset</td>
-						</tr>
-						<tr class="table-secondary">
-							<th colspan=10>Jump</th>
-						</tr>
-						<tr>
-							<td>J target</td>
-							<td>Jump</td>
-							<td>J</td>
-							<td>pc = pc_upper | (target &lt;&lt; 2)</td>
-							<td>000010</td>
-							<td colspan=5>target</td>
-						</tr>
-						<tr>
-							<td>JAL target</td>
-							<td>Jump and Link</td>
-							<td>J</td>
-							<td>R[$ra] = pc; pc = (target &lt;&lt;2)</td>
-							<td>000011</td>
-							<td colspan=5>target</td>
-						</tr>
-						<tr>
-							<td>JALR</td>
-							<td>Jump and Link Register</td>
-							<td>J</td>
-							<td>R[rd] = pc; pc = R[rs]</td>
-							<td>000000</td>
-							<td>rs</td>
-							<td>00000</td>
-							<td>rd</td>
-							<td>00000</td>
-							<td>001001</td>
-						</tr>
-						<tr>
-							<td>JR</td>
-							<td>Jump Register</td>
-							<td>J</td>
-							<td>pc = R[rs]</td>
-							<td>000000</td>
-							<td>rs</td>
-							<td colspan=3>000000000000000</td>
-							<td>001000</td>
-						</tr>
-						<tr class="table-secondary">
-							<th colspan=10 scope="row">Memory Access</th>
-						</tr>
-						<tr>
-							<td>LB rt, offset(rs)</td>
-							<td>Load Byte</td>
-							<td>I</td>
-							<td>R[rt] = SignExt(M[R[rs]+SignExtImm](7:0))</td>
-							<td>100000</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td colspan=3>offset/imm</td>
-						</tr>
-						<tr>
-							<td>LBU rt, offset(rs)</td>
-							<td>Load Byte Unsigned</td>
-							<td>I</td>
-							<td>R[rt] = {24’b0, M[R[rs]+SignExtImm](7:0)}</td>
-							<td>100100</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td colspan=3>offset/imm</td>
-						</tr>
-						<tr>
-							<td>LH rt, offset(rs)</td>
-							<td>Load Halfword</td>
-							<td>I</td>
-							<td>R[rt] = SignExt(M[R[rs]+SignExtImm](15:0))</td>
-							<td>100001</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td colspan=3>offset/imm</td>
-						</tr>
-						<tr>
-							<td>LHU rt, offset(rs)</td>
-							<td>Load Halfword Unsiged</td>
-							<td>I</td>
-							<td>R[rt] = {16’b0, M[R[rs]+SignExtImm](15:0)}</td>
-							<td>100101</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td colspan=3>offset/imm</td>
-						</tr>
-						<tr>
-							<td>LW rt, offset(rs)</td>
-							<td>Load Word</td>
-							<td>I</td>
-							<td>R[rt] = M[R[rs]+SignExtImm]</td>
-							<td>100011</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td colspan=3>offset/imm</td>
-						</tr>
-						<tr>
-							<td>SB rt, offset(rs)</td>
-							<td>Store Byte</td>
-							<td>I</td>
-							<td>M[R[rs]+SignExtImm](7:0) = R[rt](7:0)</td>
-							<td>101000</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td colspan=3>offset/imm</td>
-						</tr>
-						<tr>
-							<td>SH rt,offset(rs)</td>
-							<td>Store Halfword</td>
-							<td>I</td>
-							<td>M[R[rs]+SignExtImm](15:0) = R[rt](15:0)</td>
-							<td>101001</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td colspan=3>offset/imm</td>
-						</tr>
-						<tr>
-							<td>SW rt,offset(rs)</td>
-							<td>Store Word</td>
-							<td>I</td>
-							<td>M[R[rs]+SignExtImm] = R[rt]</td>
-							<td>101011</td>
-							<td>rs</td>
-							<td>rt</td>
-							<td colspan=3>offset/imm</td>
-						</tr>
-						<tr class="table-info">
-							<td colspan=10>SignExtImm = {16{imm[15],imm}<br>
-								ZeroExtImm = {16{1’b0},imm}<br>
-								pc_upper = pc[31:28]<br>
-								Ov = Overflow Flag, Active High
-							</td>
-						</tr>
+							<tr>
+								<td>$zero</td>
+								<td>0</td>
+								<td>The Constant Value 0</td>
+							</tr>
+							<tr>
+								<td>$at</td>
+								<td>at</td>
+								<td>Assembler Temporary</td>
+							</tr>
+							<tr>
+								<td>$v0-$v1</td>
+								<td>2-3</td>
+								<td>Values for Function Results and Expression Evaluation</td>
+							</tr>
+							<tr>
+								<td>$a0-$a3</td>
+								<td>4-7</td>
+								<td>Arguments</td>
+							</tr>
+							<tr>
+								<td>$t0-$t7</td>
+								<td>8-15</td>
+								<td>Temporaries</td>
+							</tr>
+							<tr>
+								<td>$s0-$s7</td>
+								<td>16-23</td>
+								<td>Saved Temporaries</td>
+							</tr>
+							<tr>
+								<td>$t8-$t9</td>
+								<td>24-25</td>
+								<td>Temporaries</td>
+							</tr>
+							<tr>
+								<td>$k0-$k1</td>
+								<td>26-27</td>
+								<td>Reserved for OS Kernel</td>
+							</tr>
+							<tr>
+								<td>$gp</td>
+								<td>28</td>
+								<td>Global Pointer</td>
+							</tr>
+							<tr>
+								<td>$sp</td>
+								<td>29</td>
+								<td>Stack Pointer</td>
+							</tr>
+							<tr>
+								<td>$fp</td>
+								<td>30</td>
+								<td>Frame Pointer</td>
+							</tr>
+							<tr>
+								<td>$ra</td>
+								<td>31</td>
+								<td>Return Address</td>
+							</tr>
+						</tbody>
 					</table>
 				</div>
-			<h1>Part 1: Base MIPS Processor</h1>
-				<h2>Testbench ("test_cpu.v")</h2>
-				<p>The testbench for this MIPS cpu initializes the processor with compiled data/memory and a reset pulse, then provides a clock until program exit.</p>
-				<div class="mx-auto">
-					<figure class="figure">
-					  <img src="./img/baseMIPS.png" class="figure-img img-fluid rounded" alt="...">
-					  <figcaption class="figure-caption">The base MIPS processor.</figcaption>
-					</figure>
+				<h3>Core Instruction Set Definition</h3>
+				<div class="table-responsive">
+					<table class="table table-bordered table-sm table-hover">
+							<thead>
+								<tr>
+									<th>Instruction</th>
+									<th>Name</th>
+									<th>Format</th>
+									<th>Verilog Operation</th>
+									<th colspan=6>Opcode bitfields</th>
+								</tr>
+							</thead>
+							<thead>
+								<tr class="table-secondary">
+									<th colspan=10>
+										Arithmetic Logic Unit
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+							<tr>
+								<td>ADD rd, rs, rt</td>
+								<td>Add</td>
+								<td>R</td>
+								<td>R[rd] = R[rs] + R[rt];<br>
+									Ov = (R[rs](31)==R[rt](31))&amp;~(R[rt](31)==R[rd](31))
+								</td>
+								<td>000000</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td >rd</td>
+								<td>00000</td>
+								<td>100000</td>
+							</tr>
+							<tr>
+								<td>ADDI rt, rs, imm</td>
+								<td>Add Immediate</td>
+								<td>I</td>
+								<td>R[rt] = R[rs] + SignExtImm;<br>
+									Ov = (R[rs](31)==R[rt](31))&amp;~(R[rt](31)==R[rd](31))
+								</td>
+								<td>001000</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td colspan=3>imm</td>
+							</tr>
+							<tr>
+								<td>ADDIU rt, rs, imm</td>
+								<td>Add Immediate Unsigned</td>
+								<td>I</td>
+								<td>R[rt] = R[rs] + SignExtImm</td>
+								<td>001001</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td colspan=3>imm</td>
+							</tr>
+							<tr>
+								<td>ADDU rd, rs, rt</td>
+								<td>Add Unsiged</td>
+								<td>R</td>
+								<td>R[rd] = R[rs] + R[rt]</td>
+								<td>000000</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td >rd</t	d>
+								<td>00000</td>
+								<td>100001</td>
+							</tr>
+							<tr>
+								<td>AND rd, rs, rt</td>
+								<td>And</td>
+								<td>R</td>
+								<td>R[rd] = R[rs] &amp; R[rt]</td>
+								<td>000000	</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td >rd</td>
+								<td>00000</td>
+								<td>100100</td>
+							</tr>
+							<tr>
+								<td>ANDI rt, rs, imm</td>
+								<td>And Immediate</td>
+								<td>I</td>
+								<td>R[rt] = R[rs] &amp; ZeroExtImm</td>
+								<td>001100</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td colspan=3>imm</td>
+							</tr>
+							<tr>
+								<td>LUI rt, imm</td>
+								<td>Load Upper Immediate</td>
+								<td>I</td>
+								<td>R[rt] = {imm,16’b0}</td>
+								<td>001111</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td colspan=3>imm</td>
+							</tr>
+							<tr>
+								<td>NOR rd, rs, rt</td>
+								<td>Nor</td>
+								<td>R</td>
+								<td>R[rd] = ~(R[rs] | R[rt])</td>
+								<td>000000</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td >rd</td>
+								<td>00000</td>
+								<td>100111</td>
+							</tr>
+							<tr>
+								<td>OR rd, rs, rt</td>
+								<td>Or</td>
+								<td>R</td>
+								<td>R[rd] = R[rs] | R[rt]</td>
+								<td>000000</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td >rd</td>
+								<td>00000</td>
+								<td>100101</td>
+							</tr>
+							<tr>
+								<td>ORI rt, rs, imm</td>
+								<td>Or Immediate</td>
+								<td>I</td>
+								<td>R[rt] = R[rs] | ZeroExtImm</td>
+								<td>001101</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td colspan=3>imm</td>
+							</tr>
+							<tr>
+								<td>SLT rd, rs, rt</td>
+								<td>Set Less Than</td>
+								<td>R</td>
+								<td>R[rd] = $signed (R[rs] &lt; R[rt])?1:0</td>
+								<td>000000</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td >rd</td>
+								<td>00000</td>
+								<td>101010</td>
+							</tr>
+							<tr>
+								<td>SLTI rt, rs, imm</td>
+								<td>Set Less Than Immediate</td>
+								<td>I</td>
+								<td>R[rt] = $signed(R[rs] &lt; SignExtImm)?1:0</td>
+								<td>001010</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td colspan=3>imm</td>
+							</tr>
+							<tr>
+								<td>SLTIU rt, rs, imm</td>
+								<td>Set Less Than Immediate Unsigned</td>
+								<td>I</td>
+								<td>R[rt] = (R[rs] &lt; SignExtImm)?1:0</td>
+								<td>001011</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td colspan=3>imm</td>
+							</tr>
+							<tr>
+								<td>SLTU rd, rs, rt</td>
+								<td>Set Less Than Unsigned</td>
+								<td>R</td>
+								<td>R[rd] = (R[rs] &lt; R[rt])?1:0</td>
+								<td>000000</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td >rd</td>
+								<td>00000</td>
+								<td>101011</td>
+							</tr>
+							<tr>
+								<td>SUB rd, rs, rt</td>
+								<td>Subtract</td>
+								<td>R</td>
+								<td>R[rd] = $signed(R[rs] - R[rt]);<br>
+									Ov = ~(R[rs](31)==R[rt](31))&amp;(R[rt](31)==R[rd](31))
+								</td>
+								<td>000000</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td >rd</td>
+								<td>00000</td>
+								<td>100010</td>
+							</tr>
+							<tr>
+								<td>SUBU rd, rs, rt</td>
+								<td>Subtract Unsigned</td>
+								<td>R</td>
+								<td>R[rd] = R[rs] - R[rt]</td>
+								<td>000000</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td >rd</td>
+								<td>00000</td>
+								<td>100011</td>
+							</tr>
+							<tr>
+								<td>XOR rd, rs, rt</td>
+								<td>Exclusive Or</td>
+								<td>R</td>
+								<td>R[rd] = R[rs] ^ R[rt]</td>
+								<td>000000</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td >rd</td>
+								<td>00000</td>
+								<td>100110</td>
+							</tr>
+							<tr>
+								<td>XORI rd, rs, imm</td>
+								<td>Exclusive Or Immediate</td>
+								<td>I</td>
+								<td>R[rt] = R[rs] ^ ZeroExtImm</td>
+								<td>001110</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td colspan=3>imm</td>
+							</tr>
+							<tr class="table-secondary">
+								<th colspan=10 scope="row">Shifter</th>
+							</tr>
+							<tr>
+								<td>SLL rd, rt, sa</td>
+								<td>Shift Left Logical</td>
+								<td>R</td>
+								<td>R[rd] = R[rt] &lt;&lt; sa</td>
+								<td>000000</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td >rd</td>
+								<td>sa</td>
+								<td>000000</td>
+							</tr>
+							<tr>
+								<td>SLLV rd, rt, rs</td>
+								<td>Shift Left Logical Variable</td>
+								<td>R</td>
+								<td>R[rd] = R[rt] &lt;&lt; R[rs]</td>
+								<td>000000</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td >rd</td>
+								<td>00000</td>
+								<td>000100</td>
+							</tr>
+							<tr>
+								<td>SRA rd, rt, a</td>
+								<td>Shift Right Arithmetic</td>
+								<td>R</td>
+								<td>R[rd] = R[rt] &lt;&lt;&lt; sa</td>
+								<td>000000</td>
+								<td>00000</td>
+								<td>rt</td>
+								<td >rd</td>
+								<td>sa</td>
+								<td>000011</td>
+							</tr>
+							<tr>
+								<td>SRAV rd, rt, rs</td>
+								<td>Shift Right Arithmetic Variable</td>
+								<td>R</td>
+								<td>R[rd] = R[rt] &lt;&lt;&lt; R[rs]</td>
+								<td>000000</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td >rd</td>
+								<td>00000</td>
+								<td>000111</td>
+							</tr>
+							<tr>
+								<td>SRL rd, rt, sa</td>
+								<td>Shift Right Logical</td>
+								<td>R</td>
+								<td>R[rd] = R[rt] &gt;&gt; sa</td>
+								<td>000000</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td >rd</td>
+								<td>sa</td>
+								<td>000010</td>
+							</tr>
+							<tr>
+								<td>SRLV rd, rt, rs</td>
+								<td>Shift Right Logical Variable</td>
+								<td>R</td>
+								<td>R[rd] = R[rt] &gt;&gt; R[rs]</td>
+								<td>000000</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td >rd</td>
+								<td>00000</td>
+								<td>000110</td>
+							</tr>
+							<tr class="table-secondary">
+								<th colspan=10>Multiply</th>
+							</tr>
+							<tr>
+								<td>DIV rs, rt</td>
+								<td>Divide</td>
+								<td>R</td>
+								<td>HI = $signed(rs % rt); LO = $signed(rs / rt)</td>
+								<td>000000</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td colspan=2>0000000000</td>
+								<td>011010</td>
+							</tr>
+							<tr>
+								<td>DIVU rs, rt</td>
+								<td>Divide Unsigned</td>
+								<td>R</td>
+								<td>HI = rs % rt; LO = rs / rt</td>
+								<td>000000</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td colspan=2>0000000000</td>
+								<td>011011</td>
+							</tr>
+							<tr>
+								<td>MFHI rd</td>
+								<td>Move From HI</td>
+								<td>R</td>
+								<td>R[rd] = HI</td>
+								<td>000000</td>
+								<td colspan=2>0000000000</td>
+								<td >rd</td>
+								<td>00000</td>
+								<td>010000</td>
+							</tr>
+							<tr>
+								<td>MFLO rd</td>
+								<td>Move From LO</td>
+								<td>R</td>
+								<td>R[rd] = LO</td>
+								<td>000000</td>
+								<td colspan=2>0000000000</td>
+								<td >rd</td>
+								<td>00000</td>
+								<td>010010</td>
+							</tr>
+							<tr>
+								<td>MULT rs, rt</td>
+								<td>Multiply</td>
+								<td>R</td>
+								<td>{HI,LO} = $signed({ {32{R[rs](31)}},R[rs]} * <br>
+									{ {32{ R[rt](31) }},R[rt]});</td>
+								<td>000000</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td colspan=2>0000000000</td>
+								<td>011000</td>
+							</tr>
+							<tr>
+								<td>MULTU rs, rt</td>
+								<td>Multiply Unsigned</td>
+								<td>R</td>
+								<td>{HI,LO} = R[rs] * R[rt]</td>
+								<td>000000</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td colspan=2>0000000000</td>
+								<td>011001</td>
+							</tr>
+							<tr class="table-secondary">
+								<th colspan=10>Branch</th>
+							</tr>
+							<tr>
+								<td>BEQ rs, rt, offset</td>
+								<td>Branch On Equal</td>
+								<td>I</td>
+								<td>if(R[rs] == R[rt]) pc += (offset &lt;&lt; 2) + 4</td>
+								<td>000100</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td colspan=3>offset</td>
+							</tr>
+							<tr>
+								<td>BGEZ rs, offset</td>
+								<td>Branch On &gt;= 0</td>
+								<td>I</td>
+								<td>if(R[rs] &gt;= 0) pc += (offset &lt;&lt; 2) + 4</td>
+								<td>000001</td>
+								<td>rs</td>
+								<td>00001</td>
+								<td colspan=3>offset</td>
+							</tr>
+							<tr>
+								<td>BGEZAL rs, offset</td>
+								<td>Branch On &gt;= 0 And Link</td>
+								<td>I</td>
+								<td>R[$ra] = pc; if(R[rs] &gt;= 0) pc += (offset &lt;&lt; 2) + 4</td>
+								<td>000001</td>
+								<td>rs</td>
+								<td>10001</td>
+								<td colspan=3>offset</td>
+							</tr>
+							<tr>
+								<td>BGTZ rs, offset</td>
+								<td>Branch On &gt; 0</td>
+								<td>I</td>
+								<td>if(R[rs] &gt; 0) pc += (offset &lt;&lt; 2) + 4 </td>
+								<td>000111</td>
+								<td>rs</td>
+								<td>00000</td>
+								<td colspan=3>offset</td>
+							</tr>
+							<tr>
+								<td>BLEZ rs, offset</td>
+								<td>Branch On &lt;= 0</td>
+								<td>I</td>
+								<td>if(R[rs] &lt;= 0) pc += (offset &lt;&lt; 2) + 4</td>
+								<td>000110</td>
+								<td>rs</td>
+								<td>00000</td>
+								<td colspan=3>offset</td>
+							</tr>
+							<tr>
+								<td>BLTZ rs, offset</td>
+								<td>Branch On &lt; 0</td>
+								<td>I</td>
+								<td>if(R[rs] &lt; 0 ) pc += (offset &lt;&lt; 2) + 4</td>
+								<td>000001</td>
+								<td>rs</td>
+								<td>00000</td>
+								<td colspan=3>offset</td>
+							</tr>
+							<tr>
+								<td>BLTZAL rs, offset</td>
+								<td>Branch On &lt; 0 And Link</td>
+								<td>I</td>
+								<td>R[$ra] = pc; if(R[rs] &lt; 0) pc += (offset &lt;&lt; 2) + 4</td>
+								<td>000001</td>
+								<td>rs</td>
+								<td>10000</td>
+								<td colspan=3>offset</td>
+							</tr>
+							<tr>
+								<td>BNE rs, rt, offset</td>
+								<td>Branch On Not Equal</td>
+								<td>I</td>
+								<td>if(R[rs] != R[rt]) pc += (offset &lt;&lt; 2) + 4</td>
+								<td>000101</td>
+								<td>rs</td>
+								<td>rt
+								</td>
+								<td colspan=3>offset</td>
+							</tr>
+							<tr class="table-secondary">
+								<th colspan=10>Jump</th>
+							</tr>
+							<tr>
+								<td>J target</td>
+								<td>Jump</td>
+								<td>J</td>
+								<td>pc = pc_upper | (target &lt;&lt; 2)</td>
+								<td>000010</td>
+								<td colspan=5>target</td>
+							</tr>
+							<tr>
+								<td>JAL target</td>
+								<td>Jump and Link</td>
+								<td>J</td>
+								<td>R[$ra] = pc; pc = (target &lt;&lt;2)</td>
+								<td>000011</td>
+								<td colspan=5>target</td>
+							</tr>
+							<tr>
+								<td>JALR</td>
+								<td>Jump and Link Register</td>
+								<td>J</td>
+								<td>R[rd] = pc; pc = R[rs]</td>
+								<td>000000</td>
+								<td>rs</td>
+								<td>00000</td>
+								<td>rd</td>
+								<td>00000</td>
+								<td>001001</td>
+							</tr>
+							<tr>
+								<td>JR</td>
+								<td>Jump Register</td>
+								<td>J</td>
+								<td>pc = R[rs]</td>
+								<td>000000</td>
+								<td>rs</td>
+								<td colspan=3>000000000000000</td>
+								<td>001000</td>
+							</tr>
+							<tr class="table-secondary">
+								<th colspan=10 scope="row">Memory Access</th>
+							</tr>
+							<tr>
+								<td>LB rt, offset(rs)</td>
+								<td>Load Byte</td>
+								<td>I</td>
+								<td>R[rt] = SignExt(M[R[rs]+SignExtImm](7:0))</td>
+								<td>100000</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td colspan=3>offset/imm</td>
+							</tr>
+							<tr>
+								<td>LBU rt, offset(rs)</td>
+								<td>Load Byte Unsigned</td>
+								<td>I</td>
+								<td>R[rt] = {24’b0, M[R[rs]+SignExtImm](7:0)}</td>
+								<td>100100</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td colspan=3>offset/imm</td>
+							</tr>
+							<tr>
+								<td>LH rt, offset(rs)</td>
+								<td>Load Halfword</td>
+								<td>I</td>
+								<td>R[rt] = SignExt(M[R[rs]+SignExtImm](15:0))</td>
+								<td>100001</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td colspan=3>offset/imm</td>
+							</tr>
+							<tr>
+								<td>LHU rt, offset(rs)</td>
+								<td>Load Halfword Unsiged</td>
+								<td>I</td>
+								<td>R[rt] = {16’b0, M[R[rs]+SignExtImm](15:0)}</td>
+								<td>100101</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td colspan=3>offset/imm</td>
+							</tr>
+							<tr>
+								<td>LW rt, offset(rs)</td>
+								<td>Load Word</td>
+								<td>I</td>
+								<td>R[rt] = M[R[rs]+SignExtImm]</td>
+								<td>100011</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td colspan=3>offset/imm</td>
+							</tr>
+							<tr>
+								<td>SB rt, offset(rs)</td>
+								<td>Store Byte</td>
+								<td>I</td>
+								<td>M[R[rs]+SignExtImm](7:0) = R[rt](7:0)</td>
+								<td>101000</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td colspan=3>offset/imm</td>
+							</tr>
+							<tr>
+								<td>SH rt,offset(rs)</td>
+								<td>Store Halfword</td>
+								<td>I</td>
+								<td>M[R[rs]+SignExtImm](15:0) = R[rt](15:0)</td>
+								<td>101001</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td colspan=3>offset/imm</td>
+							</tr>
+							<tr>
+								<td>SW rt,offset(rs)</td>
+								<td>Store Word</td>
+								<td>I</td>
+								<td>M[R[rs]+SignExtImm] = R[rt]</td>
+								<td>101011</td>
+								<td>rs</td>
+								<td>rt</td>
+								<td colspan=3>offset/imm</td>
+							</tr>
+							<tr class="table-info">
+								<td colspan=10>SignExtImm = {16{imm[15],imm}<br>
+									ZeroExtImm = {16{1’b0},imm}<br>
+									pc_upper = pc[31:28]<br>
+									Ov = Overflow Flag, Active High
+								</td>
+							</tr>
+						</table>
 				</div>
-				<p>The base MIPS processor must perform the basic functions of a single-cycle CPU: instruction fetch, instruction decode, operand fetch, execute, result store. In our Verilog implementation, instruction fetch logic is in module “fetch.v”; data memory and instruction memory are a single module, “memory.v”; instruction decode logic is in “decode.v”; and the arithmetic and logic of the execute step is in “alu.v”. These modules are connected to each other in “cpu.v”.</p>
-				<h2>Top-Level Structure (“cpu.v”)</h2>
-					<h4>Inputs</h4>
-						<ul>
-							<li>Clock</li>
-							<li>Reset</li>
-						</ul>
-					<h4>Outputs</h4>
-						<ul>
-							<li></li>
-						</ul>
+			</div>
+			<div class="border-bottom">
+				<h2>Part 1: Base MIPS Processor</h2>
+					<h3>Testbench ("test_cpu.v")</h3>
+					<p>The testbench for this MIPS cpu initializes the processor with compiled data/memory and a reset pulse, then provides a clock until program exit.</p>
+					<div class="mx-auto">
+						<figure class="figure">
+						  <img src="./img/baseMIPS.png" class="figure-img img-fluid rounded" alt="...">
+						  <figcaption class="figure-caption">The base MIPS processor.</figcaption>
+						</figure>
+					</div>
+					<p>The base MIPS processor must perform the basic functions of a single-cycle CPU: instruction fetch, instruction decode, operand fetch, execute, result store. In our Verilog implementation, instruction fetch logic is in module “fetch.v”; data memory and instruction memory are a single module, “memory.v”; instruction decode logic is in “decode.v”; and the arithmetic and logic of the execute step is in “alu.v”. These modules are connected to each other in “cpu.v”.</p>
+					<h3>Top-Level Structure (“cpu.v”)</h3>
+					<strong>Inputs</strong>
+					<ul>
+						<li>Clock</li>
+						<li>Reset</li>
+					</ul>
+					<strong>Outputs</strong>
+					<ul>
+						<li>SYSCALL print outputs</li>
+					</ul>
+					<strong>Specification</strong>
+					<p>The components of the MIPS processor are all declared and connected in this module. The immediate extend type, alu source, and register source multiplexers (MUXes) are here. The SYSCALL functions are executed by this module if a SYSCALL instruction is detected in the instruction independent of the decode module.</p>
+					<h3>IF: Instruction Fetch (“fetch.v”)</h3>
+					<strong>Inputs</strong>
+					<ul>
+						<li>Clock</li>
+						<li>Reset: If asserted, set pc_next = 0</li>
+						<li>pc_src: An value from 0-3 defining the source of the next value for the program counter (pc).</li>
+						<li>isZero: A binary value which is asserted if the arithmetic logic unit has calculated a zero-valued result.</li>
+						<li>branch_ctrl: A binary value which controls whether to perform a branch or not in conjunction with isZero, given pc_src indicates a branch instruction is underway.</li>
+						<li>reg_addr: A 32-bit value from a register used as the complete next program counter value in jump register instructions.</li>
+						<li>jump_addr: A 26-bit value to which the program counter is set in non-register jump instructions.</li>
+						<li>imm_addr: A 16-bit value that functions as an offset from the current program counter in branch instructions.</li>
+					</ul>
+					<strong>Outputs</strong>
+					<ul>
+						<li>pc_next: The value of the program counter on the next instruction. Instruction is retrieved from instruction memory in the memory module.</li>
+					</ul>
+					<strong>Specification</strong>
+					<p>The fetch module produces the value of the program counter according to the type of instruction and conditional information in the case of branch instructions. The program counter (pc) is word-aligned, so the lower 2 bits are always zero. If pc_src == 0 or is invalid, the behavior is to increment the program counter to the next instruction by adding 4. If pc_src == 1, the pc_next is set to the jump address, jump_addr << 2. If pc_src == 2, the pc is incremented by 4 then conditionally incremented by imm_addr if the branch condition is met. Branch behavior is described in more detail later. Finally, if pc_src == 3, the program counter is set to a value from the register file reg_addr.</p>
+					<h3>MEM: Memory (“memory.v”)</h3>
+					<strong>Inputs</strong>
+					<ul>
+						<li>Clock</li>
+						<li>Reset: If asserted, set pc_next = 0</li>
+						<li>PC: Program counter (instruction address)</li>
+						<li>mem_cmd:  Either a no-operation (do nothing), read, or write. The module will not read/write memory unless this is set.</li>
+						<li>data_in: Data to write to a register.</li>
+						<li>data_addr: The address to which to write or from which to read</li>
+					</ul>
+					<strong>Outputs</strong>
+					<ul>
+						<li>instruction: The 32-bit instruction to be decoded</li>
+						<li>data_out: The value read from data_addr, if any.</li>
+					</ul>
+					<strong>Specification</strong>
+					<p>The memory module has two main tasks: read the instruction from memory and perform program memory operations. The module will always produce instruction based on the value of the program counter, but memory operations only occur if mem_cmd is not a no-operation. The memory array is implemented as a 4096 element array of 32-bit words, so the lower 2 bits of the data_addr are discarded. The memory range is limited such that the upper 17 bits of both data_addr and the program counter must be zero, otherwise an error is thrown and execution stops.
+					</p>
+					<h3>DEC: Intruction Decode (“decode.v”)</h3>
+					<strong>Inputs</strong>
+					<ul>
+						<li>Instruction</li>
+					</ul>
+					<strong>Outputs</strong>
+					<ul>
+						<li>wa: Write register address </li>
+						<li>ra1: Read register address 1</li>
+						<li>ra2: Read register address 2</li>
+						<li>reg_wen: Register write enable</li>
+						<li>imm_ext: Type of extension (Zero or Sign) to perform on the immediate.</li>
+						<li>imm: Immediate value.</li>
+						<li>addr: Immediate Address for jump and branch instructions.</li>
+						<li>alu_op: Arithmetic logic unit operation to perform, usually the function code.</li>
+						<li>pc_src: Source for the program counter.</li>
+						<li>mem_cmd: No-operation, read, or write memory.</li>
+						<li>alu_src: Selects alu operand B from register data 2, immediate, or shift amount (sa).</li>
+						<li>reg_src: Selects register write data from the alu, memory, program counter + 4, HI, or LO.</li>
+						<li>branch_ctrl: If asserted, use invert isZero to get branch condition. </li>
+					</ul>
+					<strong>Specification</strong>
+					<p>The decode module sets all the control wires according to the behavior specification in Table 2. It is implemented as a set of nested switch statements and would probably be implemented as a lookup table. Not all outputs must have a definite value for all operations.
+					</p>
+					<h3>OF: Operand Fetch (“regfile.v”)</h3>
+					<strong>Inputs</strong>
+					<ul>
+						<li>Clock</li>
+						<li>Reset: Set all register values to 0, set R[$sp] = 0x3ffc</li>
+						<li>wren: Enable register writes</li>
+						<li>wa: Register address to write</li>
+						<li>wd: Register data to write</li>
+						<li>ra1: Read address 1</li>
+						<li>ra2: Read address 2</li>
+					</ul>
+					<strong>Outputs</strong>
+					<ul>
+						<li>rd1: Data read from ra1 </li>
+						<li>rd2: Data read from ra2</li>
+					</ul>
+					<strong>Specification</strong>
+					<p>The register file produces the operands for the cycle and performs any write operations if wren is asserted. Table 1 describes the registers in more detail. The stack pointer, $sp, resets to 0x3ffc and the stack grows downward.
+					</p>
+					<h3>EX: Execute (“alu.v”)</h3>
+					<strong>Inputs</strong>
+					<ul>
+						<li>alu_op: Which operation to perform, usually a function code from the instruction.</li>
+						<li>A: Operand A, always rd1 from the register file module.</li>
+						<li>B: Operand B, either rd2, zero/sign extended immediate, or shift amount.</li>
+					</ul>
+					<strong>Outputs</strong>
+					<ul>
+						<li>R: Result of alu_op on the operands.</li>
+						<li>HI,LO: Result of multiplication and division operations.</li>
+						<li>Overflow: Asserted if an overflow occurred, currently halts execution if asserted.</li>
+						<li>isZero: Asserted if R == 0.</li>
+					</ul>
+					<strong>Specification</strong>
+					<p>The arithmetic logic unit (ALU) takes operands as inputs and produces a result. The result is used to evaluate branch conditionals or is stored to memory/register. Signed addition and subtraction can cause overflow interrupts, in which case the processor halts.
+					</p>
+				</div>
+			<div class="border-bottom">
+				<h2>Part 2: Branch Instructions</h2>
+				<p>
+					We first implemented the remaining branch instructions: BGEZ, BGEZAL, BGTZ, BLEZ, BLTZ, BLTZAL. All the branch instructions evaluate a conditional statement and branch when that conditional is met. Our arithmetic logic unit generates the isZero flag whenever the operation causes the result to be 0, and we invert this flag for certain instructions to branch if the condition is met or not. For BNE and BEQ, the arithmetic operation that causes the isZero flag to toggle on the right conditions is Subtraction. For BGEZ, BGEZAL, BGTZ, BLEZ, BLTZ, BLTZAL, the right operation is Set Less Than and a certain order for the operands. An additional flag, BranchCtrl, is asserted to invert the isZero flag via an XOR gate to generate the final doBranch flag for all “not equal” instructions (BNE, BGTZ, BLTZ, BLTZAL). BranchCtrl is not asserted for the “equal” instructions (BEQ, BGEZ, BGEZAL, BLEZ) to leave isZero as is. The decode module assigns the branch_ctrl, alu_op, and register address wires wa, ra1, ra2 to execute this behavior. For BGEZAL and BLTAL, the decode also asserts register file to write the program counter to R[$ra] via register write enable reg_wen and register file source reg_src.
+				</p>
+				<table class="table table-bordered table-sm table-hover">
+					<caption>Branch operation truth table. Note: BGEZAL and BLTZAL behave like BGEZ and BLTZ but add the operation R[$ra]=pc;</caption>
+					<thead>
+						<tr class="table-secondary">
+							<th>Instruction</th>
+							<th>ALU operation</th>
+							<th>branch_ctrl</th>
+							<th>isZero</th>
+							<th>doBranch (isZero XOR branch_ctrl)</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>BEQ</td>
+							<td>R[rs] - R[rt]</td>
+							<td>0</td>
+							<td>0</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>BEQ</td>
+							<td>R[rs] - R[rt]</td>
+							<td>0</td>
+							<td>1</td>
+							<td>Yes</td>
+						</tr>
+						<tr>
+							<td>BNE</td>
+							<td>R[rs] - R[rt]</td>
+							<td>1</td>
+							<td>0</td>
+							<td>Yes</td>
+						</tr>
+						<tr>
+							<td>BNE</td>
+							<td>R[rs] - R[rt]</td>
+							<td>1</td>
+							<td>1</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>BGEZ</td>
+							<td>R[rs] < R[$zero]</td>
+							<td>0</td>
+							<td>0</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>BGEZ</td>
+							<td>R[rs] < R[$zero]</td>
+							<td>0</td>
+							<td>1</td>
+							<td>Yes</td>
+						</tr>
+						<tr>
+							<td>BGTZ</td>
+							<td>R[$zero] < R[rs]</td>
+							<td>1</td>
+							<td>0</td>
+							<td>Yes</td>
+						</tr>
+						<tr>
+							<td>BGTZ</td>
+							<td>R[$zero] < R[rs]</td>
+							<td>1</td>
+							<td>1</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>BLEZ</td>
+							<td>R[$zero] < R[rs]</td>
+							<td>0</td>
+							<td>0</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>BLEZ</td>
+							<td>R[$zero] < R[rs]</td>
+							<td>0</td>
+							<td>1</td>
+							<td>Yes</td>
+						</tr>
+						<tr>
+							<td>BLTZ</td>
+							<td>R[rs] < R[$zero]</td>
+							<td>1</td>
+							<td>0</td>
+							<td>Yes</td>
+						</tr>
+						<tr>
+							<td>BLTZ</td>
+							<td>R[rs] < R[$zero]</td>
+							<td>1</td>
+							<td>1</td>
+							<td>No</td>
+						</tr>
+					</tbody>
+				</table>
+				<p>
+					In “decode.v”, the decoder differentiates BGEZ, BGEZAL, BLTZ, and BLTZAL by the value in the field marked rt because they share the opcode 0x1. BEQ, BLEZ, BGTZ, and BNE are differentiated by their unique opcodes. The decoder assigns all control wires according to the behavior outlined in Table 1 and Table 2. In “alu.v”, no changes were needed since SLT, SUB, and isZero are used in their normal ways.
+				</p>
+				<p>
+					In “fetch.v”, all branch instructions start by incrementing the program counter by 4. If doBranch is true, indicating the branch should be followed, then add offset << 2 to the program counter. Otherwise, do nothing (regular program counter increment). Some pseudocode outlining this behavior follows:
+				</p>
+				<pre><code>
+					pc_next = pc_next + 4
+					if (branch_ctrl ^ isZero)
+					pc_next = pc_next + (offset << 2)
+				</code></pre>
+				<p>
+					Our Verilog implementation of the above pseudocode is in part of the `PC_SRC_BRCH case in “fetch.v”.
+				</p>
+				<figure class="figure">
+					<img src="./img/branchMIPS.png" class="figure-img img-fluid rounded" alt="...">
+					<figcaption class="figure-caption">The MIPS processor with advanced branch capability.</figcaption>
+				</figure>
+				<ul>
+					<li>branch.asm tests BEQ and BNE by converging an initial value to a target value by half the difference each loop.</li>
+					<li>branchAL.asm tests BLTAL and BGEZAL by printing four strings in order and not printing a fifth string.</li>
+					<li>branchEZ.asm tests BGEZ and GLEZ by printing four strings in order and not printing a fifth string.</li>
+					<li>branchTZ.asm test BGTZ and BLTZ by printing four string in order and not printing a fifth string.</li>
+				</ul>
+				<p class="list-group-item bg-warning">
+					While testing branch instructions, we learned that the MARS compiler, our reference for correct assembly execution, was set to use delayed branch execution. Delayed branch execution occurs in some processors and results in the instruction after any branch instruction being executed no matter if the branch is followed or not. Our Verilog processor does not behave this way, so we disabled delayed branch execution.
+				</p>
+			</div>
+			<div class="border-bottom">
+				<h3>Part 3: Integer Multiplication/Division</h3>
+				<p>
+					Multiplication and division differ from addition and subtraction because their results are stored in two special 32-bit registers called HI and LO, as opposed to a single 32-bit output. For multiplication, the least-significant 32 bits are stored in LO and the most-significant 32 bits are stored in HI. In division, LO stores the quotient, while HI stores the remainder. On top of implementing the HI and LO registers, we also had to implement MFHI (move from HI) and MFLO (move from LO) to retrieve the output of these operations. When we first implemented signed multiplication, or MULT, we found that the result was not producing the correct output, so we had to manually sign-extended both the multiplicand and the multiplier in Verilog to resolve the issue. The Verilog code that performs signed multiplication and register values A and B properly looks a little odd:
+				</p>
+				<pre><code>{HI,LO} = $signed({{32{A_sign}}, A} * {{32{B_sign}}, B});</code></pre>
+				<p>But it works!</p>
+				<figure class="figure">
+					<img src="./img/multMIPS.png" class="figure-img img-fluid rounded" alt="...">
+					<figcaption class="figure-caption">Block diagram for implementation of multiplication and division. Note that DIV/MULT represents whether the ALU operation is division or multiplication. Our CPU supports both signed and unsigned multiplication and division.</figcaption>
+				</figure>
+			</div>
 		</div>
 	</main>
 	<footer>
