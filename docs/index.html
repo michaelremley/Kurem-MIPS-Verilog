@@ -12,7 +12,7 @@
 
 <body class="bg-secondary">
 	<header>
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<nav class="navbar navbar-expand-md navbar-dark bg-dark">
 		  <a class="navbar-brand" href="./index.html">Kurem</a>
 		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		    <span class="navbar-toggler-icon"></span>
@@ -36,16 +36,20 @@
 		</nav>
 	</header>
 	<main>
-		<div class="container bg-light" id="main-content">
+		<div class="bg-light container-lg" id="main-content">
 			<div class="border-bottom">
-				<h2>Introduction</h2>
-				<p>[catchy sentence for techy people]</p>
-				<p>[a paragraph or two about why a complete processor is dope]</o>
-				<p>[behavioral, not structural]</p>
+				<h2>What if there were a smaller computer in your computer?</h2>
+				<p>It's 2020. A global pandemic rages on and the U.S. is facing one of its most difficult political divides in history. In these uncertain and anxiety-inducing times, we can only truly rely on is IEEE 1364 and Dr. Jonathan Tse. Escape to the world of register files and case statements, and embark on an intellectual journey as we walk you through our behavioral Verilog implementation of a single-cycle CPU, complete with arithmetic operations, branch and jump commands, and memory access and storage.</p>
 			</div>
 			<div class="border-bottom">
-				<h2>Goal: The Complete MIPS Instruction Set</h2>
-				<p> To implement a complete MIPS processor, we needed a complete definition of the processor’s behavior.</p>
+				<h2>Goal: A Complete MIPS Processor</h2>
+				<p> To implement a complete MIPS processor, we needed a complete definition of the processor’s behavior.
+					We kept things simple by sticking to behavioral Verilog instead of structural Verilog, e.g. instead of making wires and an AND gate, we would use the AND operator to get the desired behavior.
+				</p>
+				<figure class="figure">
+					<img src="./img/COMPLETEMIPS.png" class="figure-img img-fluid rounded" alt="...">
+					<figcaption class="figure-caption">The complete MIPS processor implementing all instructions except for floating point.</figcaption>
+				</figure>
 			</div>
 			<div class="border-bottom">
 				<h2>Part 1: Base MIPS Processor</h2>
@@ -54,10 +58,10 @@
 					<div class="mx-auto">
 						<figure class="figure">
 						  <img src="./img/baseMIPS.png" class="figure-img img-fluid rounded" alt="...">
-						  <figcaption class="figure-caption">The base MIPS processor.</figcaption>
+						  <figcaption class="figure-caption">The base MIPS processor implementing the arithmetic logic, shifter, jump, load word, and store word instructions.</figcaption>
 						</figure>
 					</div>
-					<p>The base MIPS processor must perform the basic functions of a single-cycle CPU: instruction fetch, instruction decode, operand fetch, execute, result store. In our Verilog implementation, instruction fetch logic is in module “fetch.v”; data memory and instruction memory are a single module, “memory.v”; instruction decode logic is in “decode.v”; and the arithmetic and logic of the execute step is in “alu.v”. These modules are connected to each other in “cpu.v”.</p>
+					<p>The base MIPS processor must perform the basic functions of a single-cycle CPU: instruction fetch, instruction decode, operand fetch, execute, result store. This version of the processor implements the arithmetic logic, shifter, jump, load word, and store word instructions. In our Verilog implementation, instruction fetch logic is in module “fetch.v”; data memory and instruction memory are a single module, “memory.v”; instruction decode logic is in “decode.v”; and the arithmetic and logic of the execute step is in “alu.v”. These modules are connected to each other in “cpu.v”.</p>
 					<h3>Top-Level Structure (“cpu.v”)</h3>
 					<strong>Inputs</strong>
 					<ul>
@@ -170,7 +174,7 @@
 			<div class="border-bottom">
 				<h2>Part 2: Branch Instructions</h2>
 				<p>
-					We first implemented the remaining branch instructions: BGEZ, BGEZAL, BGTZ, BLEZ, BLTZ, BLTZAL. All the branch instructions evaluate a conditional statement and branch when that conditional is met. Our arithmetic logic unit generates the isZero flag whenever the operation causes the result to be 0, and we invert this flag for certain instructions to branch if the condition is met or not. For BNE and BEQ, the arithmetic operation that causes the isZero flag to toggle on the right conditions is Subtraction. For BGEZ, BGEZAL, BGTZ, BLEZ, BLTZ, BLTZAL, the right operation is Set Less Than and a certain order for the operands. An additional flag, BranchCtrl, is asserted to invert the isZero flag via an XOR gate to generate the final doBranch flag for all “not equal” instructions (BNE, BGTZ, BLTZ, BLTZAL). BranchCtrl is not asserted for the “equal” instructions (BEQ, BGEZ, BGEZAL, BLEZ) to leave isZero as is. The decode module assigns the branch_ctrl, alu_op, and register address wires wa, ra1, ra2 to execute this behavior. For BGEZAL and BLTAL, the decode also asserts register file to write the program counter to R[$ra] via register write enable reg_wen and register file source reg_src.
+					All branch instructions evaluate a conditional statement and branch when that conditional is met. Our arithmetic logic unit generates the isZero flag whenever the operation causes the result to be 0, and we invert this flag for certain instructions to branch if the condition is met or not. For BNE and BEQ, the arithmetic operation that causes the isZero flag to toggle on the right conditions is Subtraction. For BGEZ, BGEZAL, BGTZ, BLEZ, BLTZ, BLTZAL, the right operation is Set Less Than and a certain order for the operands. An additional flag, BranchCtrl, is asserted to invert the isZero flag via an XOR gate to generate the final doBranch flag for all “not equal” instructions (BNE, BGTZ, BLTZ, BLTZAL). BranchCtrl is not asserted for the “equal” instructions (BEQ, BGEZ, BGEZAL, BLEZ) to leave isZero as is. The decode module assigns the branch_ctrl, alu_op, and register address wires wa, ra1, ra2 to execute this behavior. For BGEZAL and BLTAL, the decode also asserts register file to write the program counter to R[$ra] via register write enable reg_wen and register file source reg_src.
 				</p>
 				<table class="table table-bordered table-sm table-hover">
 					<caption>Branch operation truth table. Note: BGEZAL and BLTZAL behave like BGEZ and BLTZ but add the operation R[$ra]=pc;</caption>
@@ -301,19 +305,34 @@
 			<div class="border-bottom">
 				<h3>Part 3: Integer Multiplication/Division</h3>
 				<p>
-					Multiplication and division differ from addition and subtraction because their results are stored in two special 32-bit registers called HI and LO, as opposed to a single 32-bit output. For multiplication, the least-significant 32 bits are stored in LO and the most-significant 32 bits are stored in HI. In division, LO stores the quotient, while HI stores the remainder. On top of implementing the HI and LO registers, we also had to implement MFHI (move from HI) and MFLO (move from LO) to retrieve the output of these operations. When we first implemented signed multiplication, or MULT, we found that the result was not producing the correct output, so we had to manually sign-extended both the multiplicand and the multiplier in Verilog to resolve the issue. The Verilog code that performs signed multiplication and register values A and B properly looks a little odd:
+					Multiplication and division differ from addition and subtraction because their results are stored in two special 32-bit registers called HI and LO, as opposed to a single 32-bit output. For multiplication, the least-significant 32 bits are stored in LO and the most-significant 32 bits are stored in HI. In division, LO stores the quotient, while HI stores the remainder. There is no overflow handling needed for multiplication and division of integers. On top of implementing the HI and LO registers, we also had to implement MFHI (move from HI) and MFLO (move from LO) to retrieve the output of these operations.
 				</p>
-				<pre><code>{HI,LO} = $signed({{32{A_sign}}, A} * {{32{B_sign}}, B});</code></pre>
-				<p>But it works!</p>
+				<p class="list-group-item bg-warning">
+					When we first implemented signed multiplication, or MULT, we found that the result was not producing the correct output, so we had to manually sign-extend both the multiplicand and the multiplier in Verilog to resolve the issue. The Verilog code that performs signed multiplication and register values A and B properly is not obvious, so we have included it to help the reader:
+					<br><br><code class="text-dark">{HI,LO} = $signed({{32{A_sign}}, A} * {{32{B_sign}}, B});</code>
+				</p>
 				<figure class="figure">
 					<img src="./img/multMIPS.png" class="figure-img img-fluid rounded" alt="...">
 					<figcaption class="figure-caption">Block diagram for implementation of multiplication and division. Note that DIV/MULT represents whether the ALU operation is division or multiplication. Our CPU supports both signed and unsigned multiplication and division.</figcaption>
 				</figure>
 			</div>
+			<div class="border-bottom">
+				<h3>Part 4: Memory Access</h3>
+				<p>
+					We expanded the CPU's memory load and store functions by implementing load byte (LB/LBU), load halfword (LH/LHU), store byte (SB), and store halfword (SH). We first increased the width of the memory command mux control from 2 bytes to 4 to support different data sizes and sign detection. To handle the different data widths, the data addresses are conditionally sign- or zero-extended using case statements/multiplexers. The decoding of the instructions for these functions is very similar to LW and SW, but the more significant bits distinguish the data size.
+				</p>
+				<figure class="figure">
+					<img src="./img/subwordMemory.png" class="figure-img img-fluid rounded" alt="...">
+					<figcaption class="figure-caption">Block diagram for implementation of msubword memory access. Store halfword and store byte are handled by the memory module, while we use multiplexers and sign extension to read the desired data from the word-level memory access.</figcaption>
+				</figure>
+				<p class="list-group-item bg-warning">
+					Within “memory.v”, we had to hardcode each case for the different data widths based on the last two bits of the data address. For the sake of word alignment, LB can retrieve data from any byte-aligned address, while the halfword data can only be retrieved from word-aligned memory addresses. We had to implement a similar set of case statements to store bytes and halfwords as well.
+				</p>
+			</div>
 		</div>
 	</main>
 	<footer>
-		<div class="fixed-bottom">
+		<div class="">
 			<p class="text-center text-white" >© Michael Remley and Megan Ku. Made with Bootstrap</p>
 		</div>
 	</footer>
