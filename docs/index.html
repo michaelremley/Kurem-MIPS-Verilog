@@ -50,7 +50,7 @@
 				</p>
 				<figure class="figure">
 					<img src="./img/COMPLETEMIPS.png" class="figure-img img-fluid rounded" alt="...">
-					<figcaption class="figure-caption">The complete MIPS processor implementing all instructions except for floating point.</figcaption>
+					<figcaption class="figure-caption">The complete MIPS processor implementing all instructions except for floating point operations.</figcaption>
 				</figure>
 			</div>
 			<div class="border-bottom">
@@ -63,16 +63,16 @@
 						  <figcaption class="figure-caption">The base MIPS processor implementing the arithmetic logic, shifter, jump, load word, and store word instructions.</figcaption>
 						</figure>
 					</div>
-					<p>The base MIPS processor must perform the basic functions of a single-cycle CPU: instruction fetch, instruction decode, operand fetch, execute, result store. This version of the processor implements the arithmetic logic, shifter, jump, load word, and store word instructions. In our Verilog implementation, instruction fetch logic is in module “fetch.v”; data memory and instruction memory are a single module, “memory.v”; instruction decode logic is in “decode.v”; and the arithmetic and logic of the execute step is in “alu.v”. These modules are connected to each other in “cpu.v”.</p>
+					<p>The base MIPS processor must perform the basic functions of a single-cycle CPU: instruction fetch, instruction decode, operand fetch, execute, and results store. This version of the processor implements the arithmetic logic, shifter, jump, load word, and store word instructions. In our Verilog implementation, instruction fetch logic is in module “fetch.v”; data memory and instruction memory are a single module, “memory.v”; instruction decode logic is in “decode.v”; and the arithmetic and logic of the execute step is in “alu.v”. These modules are connected to each other in “cpu.v”.</p>
 					<p>
 						To facilitate testing, we implemented four SYSCALL functions:
 						<ul>
-							<li>SYSCALL 1: Print the integer in register $a0</li>
+							<li>SYSCALL 1: Print the integer in register $a0.</li>
 							<li>SYSCALL 4: Print the null-terminated string starting at address stored in register $a0.</li>
-							<li>SYSCALL 10: Terminate execution</li>
-							<li>SYSCALL 17: Terminate execution with result</li>
+							<li>SYSCALL 10: Terminate execution.</li>
+							<li>SYSCALL 17: Terminate execution with result.</li>
 						</ul>
-						With each subset of instructions added, we wrote test scripts in assembly that produce a certain output if the instructions were properly implemented. For arithmetic operations, these produce some numeric output using the appropriate operations. Tests for branches and jumps print strings in a certain order only if the instructions execute properly. Finally memory access tests read/write from memory under different bit-widths and offsets.
+						With each subset of instructions added, we wrote test scripts in assembly that produce a certain output if the instructions were properly implemented. For arithmetic operations, these produce some numeric output using the appropriate operations. Tests for branches perform addition/subtraction and shifts in a certain order to produce a single result, returning exit code 0 if done in the right order. Finally, memory access tests read/write from memory under different bit-widths and offsets.
 					</p>
 					<h3>Top-Level Structure (“cpu.v”)</h3>
 					<strong>Inputs</strong>
@@ -85,13 +85,15 @@
 						<li>SYSCALL print outputs</li>
 					</ul>
 					<strong>Specification</strong>
-					<p>The components of the MIPS processor are all declared and connected in this module. The immediate extend type, alu source, and register source multiplexers (MUXes) are here. The SYSCALL functions are executed by this module if a SYSCALL instruction is detected in the instruction independent of the decode module.</p>
+					<p>
+						The components of the MIPS processor are all declared and connected in this module. The immediate extend type, alu source, and register source multiplexers (MUXes) are here. The SYSCALL functions are executed by this module if a SYSCALL instruction is detected in the instruction independent of the decode module.
+					</p>
 					<h3>IF: Instruction Fetch (“fetch.v”)</h3>
 					<strong>Inputs</strong>
 					<ul>
 						<li>Clock</li>
-						<li>Reset: If asserted, set pc_next = 0</li>
-						<li>pc_src: An value from 0-3 defining the source of the next value for the program counter (pc).</li>
+						<li>Reset: If asserted, set pc_next = 0.</li>
+						<li>pc_src: A value from 0-3 defining the source of the next value for the program counter (pc).</li>
 						<li>isZero: A binary value which is asserted if the arithmetic logic unit has calculated a zero-valued result.</li>
 						<li>branch_ctrl: A binary value which controls whether to perform a branch or not in conjunction with isZero, given pc_src indicates a branch instruction is underway.</li>
 						<li>reg_addr: A 32-bit value from a register used as the complete next program counter value in jump register instructions.</li>
@@ -103,20 +105,20 @@
 						<li>pc_next: The value of the program counter on the next instruction. Instruction is retrieved from instruction memory in the memory module.</li>
 					</ul>
 					<strong>Specification</strong>
-					<p>The fetch module produces the value of the program counter according to the type of instruction and conditional information in the case of branch instructions. The program counter (pc) is word-aligned, so the lower 2 bits are always zero. If pc_src == 0 or is invalid, the behavior is to increment the program counter to the next instruction by adding 4. If pc_src == 1, the pc_next is set to the jump address, jump_addr << 2. If pc_src == 2, the pc is incremented by 4 then conditionally incremented by imm_addr if the branch condition is met. Branch behavior is described in more detail later. Finally, if pc_src == 3, the program counter is set to a value from the register file reg_addr.</p>
+					<p>The fetch module produces the value of the program counter according to the type of instruction and conditional information in the case of branch instructions. The program counter (pc) is word-aligned, so the lower 2 bits are always zero. If pc_src == 0 or is invalid, the program counter moves to the next instruction by adding 4. If pc_src == 1, pc_next is set to the jump address, jump_addr << 2. If pc_src == 2, pc is incremented by 4 then conditionally incremented by imm_addr if the branch condition is met. Branch behavior is described in more detail later. Finally, if pc_src == 3, pc is set to a value from the register file reg_addr.</p>
 					<h3>MEM: Memory (“memory.v”)</h3>
 					<strong>Inputs</strong>
 					<ul>
 						<li>Clock</li>
-						<li>Reset: If asserted, set pc_next = 0</li>
-						<li>PC: Program counter (instruction address)</li>
-						<li>mem_cmd:  Either a no-operation (do nothing), read, or write. The module will not read/write memory unless this is set.</li>
+						<li>Reset: If asserted, set pc_next = 0.</li>
+						<li>PC: Program counter (instruction address).</li>
+						<li>mem_cmd: Either a no-operation (do nothing), read, or write. The module will not read/write memory unless this is set.</li>
 						<li>data_in: Data to write to a register.</li>
-						<li>data_addr: The address to which to write or from which to read</li>
+						<li>data_addr: The address to which to write or from which to read.</li>
 					</ul>
 					<strong>Outputs</strong>
 					<ul>
-						<li>instruction: The 32-bit instruction to be decoded</li>
+						<li>instruction: The 32-bit instruction to be decoded.</li>
 						<li>data_out: The value read from data_addr, if any.</li>
 					</ul>
 					<strong>Specification</strong>
@@ -129,10 +131,10 @@
 					</ul>
 					<strong>Outputs</strong>
 					<ul>
-						<li>wa: Write register address </li>
-						<li>ra1: Read register address 1</li>
-						<li>ra2: Read register address 2</li>
-						<li>reg_wen: Register write enable</li>
+						<li>wa: Write register address.</li>
+						<li>ra1: Read register address 1.</li>
+						<li>ra2: Read register address 2.</li>
+						<li>reg_wen: Register write enable.</li>
 						<li>imm_ext: Type of extension (Zero or Sign) to perform on the immediate.</li>
 						<li>imm: Immediate value.</li>
 						<li>addr: Immediate Address for jump and branch instructions.</li>
@@ -141,7 +143,7 @@
 						<li>mem_cmd: No-operation, read, or write memory.</li>
 						<li>alu_src: Selects alu operand B from register data 2, immediate, or shift amount (sa).</li>
 						<li>reg_src: Selects register write data from the alu, memory, program counter + 4, HI, or LO.</li>
-						<li>branch_ctrl: If asserted, use invert isZero to get branch condition. </li>
+						<li>branch_ctrl: If asserted, use invert isZero to get branch condition.</li>
 					</ul>
 					<strong>Specification</strong>
 					<p>The decode module sets all the control wires according to the behavior specification in Table 2. It is implemented as a set of nested switch statements and would probably be implemented as a lookup table. Not all outputs must have a definite value for all operations.
@@ -150,17 +152,17 @@
 					<strong>Inputs</strong>
 					<ul>
 						<li>Clock</li>
-						<li>Reset: Set all register values to 0, set R[$sp] = 0x3ffc</li>
-						<li>wren: Enable register writes</li>
-						<li>wa: Register address to write</li>
-						<li>wd: Register data to write</li>
-						<li>ra1: Read address 1</li>
-						<li>ra2: Read address 2</li>
+						<li>Reset: Set all register values to 0, set R[$sp] = 0x3ffc.</li>
+						<li>wren: Enable register writes.</li>
+						<li>wa: Register address to write.</li>
+						<li>wd: Register data to write.</li>
+						<li>ra1: Read address 1.</li>
+						<li>ra2: Read address 2.</li>
 					</ul>
 					<strong>Outputs</strong>
 					<ul>
-						<li>rd1: Data read from ra1 </li>
-						<li>rd2: Data read from ra2</li>
+						<li>rd1: Data read from ra1.</li>
+						<li>rd2: Data read from ra2.</li>
 					</ul>
 					<strong>Specification</strong>
 					<p>The register file produces the operands for the cycle and performs any write operations if wren is asserted. Table 1 describes the registers in more detail. The stack pointer, $sp, resets to 0x3ffc and the stack grows downward.
@@ -323,8 +325,16 @@
 					"mult.asm" tests MULT, MULTU, DIV, and DIV U by utilizing MFHI and MFLO to print the output of the operations.
 				</p>
 				<p class="list-group-item bg-warning">
-					When we first implemented signed multiplication, or MULT, we found that the result was not producing the correct output, so we had to manually sign-extend both the multiplicand and the multiplier in Verilog to resolve the issue. The Verilog code that performs signed multiplication and register values A and B properly is not obvious, so we have included it to help the reader:
-					<br><br><code class="text-dark">{HI,LO} = $signed({{32{A_sign}}, A} * {{32{B_sign}}, B});</code>
+					When we first implemented signed multiplication, or MULT, we found that the result was not producing the correct output, so we had to manually sign-extend both the multiplicand and the multiplier in Verilog to resolve the issue. We also had to explicitly mark the operands as signed for signed division, although we did not need to sign extend the operands.
+					<br>
+					The Verilog code that performs signed multiplication and division for register values A and B is not obvious, so we have included it to help the reader:
+					<br>
+					<br>
+					<code class="text-dark">{HI,LO} = $signed({{32{A_sign}}, A} * {{32{B_sign}}, B});</code>
+					<br>
+					<br>
+					<code class="text-dark">LO = $signed(A) / $signed(B); HI = $signed(A) % $signed(B);</code>
+
 				</p>
 				<figure class="figure">
 					<img src="./img/multMIPS.png" class="figure-img img-fluid rounded" alt="...">
