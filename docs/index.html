@@ -64,6 +64,16 @@
 						</figure>
 					</div>
 					<p>The base MIPS processor must perform the basic functions of a single-cycle CPU: instruction fetch, instruction decode, operand fetch, execute, result store. This version of the processor implements the arithmetic logic, shifter, jump, load word, and store word instructions. In our Verilog implementation, instruction fetch logic is in module “fetch.v”; data memory and instruction memory are a single module, “memory.v”; instruction decode logic is in “decode.v”; and the arithmetic and logic of the execute step is in “alu.v”. These modules are connected to each other in “cpu.v”.</p>
+					<p>
+						To facilitate testing, we implemented four SYSCALL functions:
+						<ul>
+							<li>SYSCALL 1: Print the integer in register $a0</li>
+							<li>SYSCALL 4: Print the null-terminated string starting at address stored in register $a0.</li>
+							<li>SYSCALL 10: Terminate execution</li>
+							<li>SYSCALL 17: Terminate execution with result</li>
+						</ul>
+						With each subset of instructions added, we wrote test scripts in assembly that produce a certain output if the instructions were properly implemented. For arithmetic operations, these produce some numeric output using the appropriate operations. Tests for branches and jumps print strings in a certain order only if the instructions execute properly. Finally memory access tests read/write from memory under different bit-widths and offsets.
+					</p>
 					<h3>Top-Level Structure (“cpu.v”)</h3>
 					<strong>Inputs</strong>
 					<ul>
@@ -295,19 +305,22 @@
 					<figcaption class="figure-caption">The MIPS processor with advanced branch capability.</figcaption>
 				</figure>
 				<ul>
-					<li>branch.asm tests BEQ and BNE by converging an initial value to a target value by half the difference each loop.</li>
-					<li>branchAL.asm tests BLTAL and BGEZAL by printing four strings in order and not printing a fifth string.</li>
-					<li>branchEZ.asm tests BGEZ and GLEZ by printing four strings in order and not printing a fifth string.</li>
-					<li>branchTZ.asm test BGTZ and BLTZ by printing four string in order and not printing a fifth string.</li>
+					<li>"branch.asm" tests BEQ and BNE by converging an initial value to a target value by half the difference each loop.</li>
+					<li>"branchAL.asm" tests BLTAL and BGEZAL by printing four strings in order and not printing a fifth string.</li>
+					<li>"branchEZ.asm" tests BGEZ and GLEZ by printing four strings in order and not printing a fifth string.</li>
+					<li>"branchTZ.asm" test BGTZ and BLTZ by printing four string in order and not printing a fifth string.</li>
 				</ul>
 				<p class="list-group-item bg-warning">
 					While testing branch instructions, we learned that the MARS compiler, our reference for correct assembly execution, was set to use delayed branch execution. Delayed branch execution occurs in some processors and results in the instruction after any branch instruction being executed no matter if the branch is followed or not. Our Verilog processor does not behave this way, so we disabled delayed branch execution.
 				</p>
 			</div>
 			<div class="border-bottom">
-				<h3>Part 3: Integer Multiplication/Division</h3>
+				<h2>Part 3: Integer Multiplication/Division</h2>
 				<p>
 					Multiplication and division differ from addition and subtraction because their results are stored in two special 32-bit registers called HI and LO, as opposed to a single 32-bit output. For multiplication, the least-significant 32 bits are stored in LO and the most-significant 32 bits are stored in HI. In division, LO stores the quotient, while HI stores the remainder. There is no overflow handling needed for multiplication and division of integers. On top of implementing the HI and LO registers, we also had to implement MFHI (move from HI) and MFLO (move from LO) to retrieve the output of these operations.
+				</p>
+				<p>
+					"mult.asm" tests MULT, MULTU, DIV, and DIV U by utilizing MFHI and MFLO to print the output of the operations.
 				</p>
 				<p class="list-group-item bg-warning">
 					When we first implemented signed multiplication, or MULT, we found that the result was not producing the correct output, so we had to manually sign-extend both the multiplicand and the multiplier in Verilog to resolve the issue. The Verilog code that performs signed multiplication and register values A and B properly is not obvious, so we have included it to help the reader:
@@ -319,9 +332,12 @@
 				</figure>
 			</div>
 			<div class="border-bottom">
-				<h3>Part 4: Memory Access</h3>
+				<h2>Part 4: Memory Access</h2>
 				<p>
 					We expanded the CPU's memory load and store functions by implementing load byte (LB/LBU), load halfword (LH/LHU), store byte (SB), and store halfword (SH). We first increased the width of the memory command mux control from 2 bytes to 4 to support different data sizes and sign detection. To handle the different data widths, the data addresses are conditionally sign- or zero-extended using case statements/multiplexers. The decoding of the instructions for these functions is very similar to LW and SW, but the more significant bits distinguish the data size.
+				</p>
+				<p>
+					"memory.asm" tests the various load and store functions by loading and storing specific values and then printing them to verify the correct values were retrieved.
 				</p>
 				<figure class="figure">
 					<img src="./img/subwordMemory.png" class="figure-img img-fluid rounded" alt="...">
@@ -329,6 +345,20 @@
 				</figure>
 				<p class="list-group-item bg-warning">
 					Within “memory.v”, we had to hardcode each case for the different data widths based on the last two bits of the data address. For the sake of word alignment, LB can retrieve data from any byte-aligned address, while the halfword data can only be retrieved from word-aligned memory addresses. We had to implement a similar set of case statements to store bytes and halfwords as well.
+				</p>
+			</div>
+			<div class="border-bottom">
+				<h2>Next Steps</h2>
+				<p>
+					We have a few stretch goals that we would like to tackle in the future. These include the following features:
+				</p>
+				<ul>
+					<li>Exeption/interrupt handling</li>
+					<li>Support for floating-point arithmetic</li>
+					<li>Run arbitrary C code on processor</li>
+					<li>Dhrystone test</li>
+				</ul>
+				<p>
 				</p>
 			</div>
 		</div>
